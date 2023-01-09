@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration debug="false">
+
+  <!-- Console appender -->
+  <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%-56c (%X{loginame}) %d{yyyy-MM-dd HH:mm:ss} %-5p: %m%n" />
+    </layout>
+  </appender>
+
+
+  <!-- File per debugging con tutto dentro -->
+  <appender name="BEZIERLOG" class="org.apache.log4j.DailyRollingFileAppender">
+    <!-- Append=true per non troncare il file di log a 0 -->
+    <param name="Append" value="true" />
+    <param name="File" value="${catalina.home}/logs/bezier/bezier.log" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%-56c{2} (%X{loginame}) %d{yyyy-MM-dd HH:mm:ss} %-5p: %m%n" />
+    </layout>
+  </appender>
+
+  <logger name="com.sun.faces">
+    <level value="info" />
+  </logger>
+  <logger name="sm.clagenna.bezier">
+    <level value="debug" />
+  </logger>
+
+
+  <root>
+    <level value="DEBUG" /> <!-- rootlevel -->
+    <appender-ref ref="CONSOLE" />
+    <appender-ref ref="BEZIERLOG" />
+  </root>
+</log4j:configuration>

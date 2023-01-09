@@ -6,16 +6,16 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-public class MyJFrame extends JFrame {
+public class MainJFrame extends JFrame {
 
   /** long */
   private static final long serialVersionUID = -2772804427885900779L;
 
-  public MyJFrame() {
+  public MainJFrame() {
     initComponents();
   }
 
-  public MyJFrame(String p_string) {
+  public MainJFrame(String p_string) {
     super(p_string);
     initComponents();
   }

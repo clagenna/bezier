@@ -32,13 +32,8 @@
 package prova.scroll;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Vector;
 
 /*
  * This code is based on an example provided by John Vella,
@@ -49,7 +44,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 /* ScrollDemo2.java requires no other files. */

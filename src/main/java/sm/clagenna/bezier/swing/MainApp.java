@@ -1,7 +1,9 @@
-package prova.scroll3;
+package sm.clagenna.bezier.swing;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 
 public class MainApp {
 
@@ -10,7 +12,8 @@ public class MainApp {
   }
 
   private void init() {
-
+    new PropertyChangeBroadcaster();
+    
   }
 
   public static void main(String[] args) {
@@ -21,7 +24,7 @@ public class MainApp {
       System.err.println("Set Look and Feel:" + l_e);
     }
 
-    MainJFrame app = new MainJFrame("Titolo della finestra");
+    MainJFrame app = new MainJFrame("Prove con le curve di Bezier");
     SwingUtilities.invokeLater(new Runnable() {
       @Override
       public void run() {
