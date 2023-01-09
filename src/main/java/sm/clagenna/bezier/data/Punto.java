@@ -17,7 +17,7 @@ public class Punto implements Cloneable {
   private String        id;
 
   static {
-    s_raggioMaxBersaglio = 2;
+    s_raggioMaxBersaglio = 5;
   }
 
   public Punto(double x, double y) {
@@ -48,6 +48,14 @@ public class Punto implements Cloneable {
   public void setPunto(Punto p_pu) {
     this.x = p_pu.getX();
     this.y = p_pu.getY();
+  }
+
+  @Override
+  public boolean equals(Object p_obj) {
+    if ( (p_obj == null) || ! (p_obj instanceof Punto))
+      return false;
+    Punto altro = (Punto) p_obj;
+    return getId().equals(altro.getId());
   }
 
   @Override

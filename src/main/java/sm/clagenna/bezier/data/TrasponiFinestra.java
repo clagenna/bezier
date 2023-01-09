@@ -116,7 +116,7 @@ public class TrasponiFinestra implements PropertyChangeListener {
     }
     double lx = p.getX() * zoom;
     // double ly = height - p.getPy() * zoom;
-    double ly = maxY - p.getY() * zoom;
+    double ly = getEight() - p.getY() * zoom;
     ret.setX((int) lx);
     ret.setY((int) ly);
     // System.out.println("convertiW=" + ret.toString());
@@ -148,7 +148,7 @@ public class TrasponiFinestra implements PropertyChangeListener {
     EPropChange pch = (EPropChange) obj;
     switch (pch) {
 
-      case panelRezized:
+      case panelResized:
         Dimension dim = (Dimension) p_evt.getNewValue();
         System.out.println("TrasponiFinestra.propertyChange():" + dim.toString());
         setWidth(dim.getWidth());
@@ -159,5 +159,7 @@ public class TrasponiFinestra implements PropertyChangeListener {
         break;
     }
   }
+
+  
 
 }

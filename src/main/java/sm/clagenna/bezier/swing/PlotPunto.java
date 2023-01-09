@@ -29,8 +29,10 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
 
   /** il punto windows da convertire in x */
   private ModelloDati       m_dati;
-  private Punto             m_puntoW;
-  private Punto             m_puntoX;
+  @Getter
+  private Punto             puntoW;
+  @Getter
+  private Punto             puntoX;
   private Shape             m_cerchio;
   private transient Color   m_colore;
   @Getter @Setter
@@ -51,9 +53,9 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
    */
   public PlotPunto(ModelloDati p_md, Punto p_w) {
     m_dati = p_md;
-    m_puntoW = p_w;
-    m_puntoX = m_dati.getTraspondiFinestra().convertiX(p_w);
-    m_puntoX.setId(p_w.getId());
+    puntoW = p_w;
+    puntoX = m_dati.getTraspondiFinestra().convertiX(p_w);
+    puntoX.setId(p_w.getId());
     setRaggio(s_raggioDefault);
     m_colore = s_Vert;
   }
@@ -64,8 +66,8 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
     // int ragW = (int) (getRaggio() * 10.); // * zoo);
     Graphics2D g2 = (Graphics2D) p_g2.create();
 
-    double px = m_puntoW.getX();
-    double py = m_puntoW.getY();
+    double px = puntoW.getX();
+    double py = puntoW.getY();
 
     Color bkg = g2.getBackground();
     // il piu stretto
@@ -86,14 +88,14 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
 
   private void stampaNome(Graphics2D g2) {
     double nFsize = 12.; // p_trasp.getZoom();
-    String sz = m_puntoW.getId();
+    String sz = puntoW.getId();
     Font font = new Font("SanSerif", Font.PLAIN, (int) (nFsize));
     FontRenderContext frc = g2.getFontRenderContext();
     GlyphVector gv = font.createGlyphVector(frc, sz);
     Rectangle2D rec = gv.getVisualBounds();
 
-    int px = (int) m_puntoW.getX();
-    int py = (int) m_puntoW.getY();
+    int px = (int) puntoW.getX();
+    int py = (int) puntoW.getY();
     g2.setColor(s_Vert);
     // float px = (pu.x - (nFsize / +5F) * (sz.length() - 1));
     // float pfx = (float) (px - (nFsize * 0.6F));
@@ -106,48 +108,50 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
 
   public String getId() {
     String ret = "?";
-    if (m_puntoW != null)
-      ret = m_puntoW.getId();
+    if (puntoW != null)
+      ret = puntoW.getId();
     return ret;
   }
 
   public void setPunto(Punto p_pu) {
-    if (m_puntoW == null)
+    if (puntoW == null)
       return;
-    m_puntoW.setPunto(p_pu);
+    puntoW.setPunto(p_pu);
     PropertyChangeBroadcaster.getInst().broadCast(this, EPropChange.modificaGeomtria);
   }
 
   @Override
   public Punto getPunto() {
-    return m_puntoW;
+    return puntoW;
   }
 
   public boolean checkBersaglio(Punto p_pu) {
-    double dx = Math.abs(p_pu.getX() - m_puntoW.getX());
+    if (p_pu.equals(puntoW))
+      return true;
+    double dx = Math.abs(p_pu.getX() - puntoW.getX());
     if (dx > raggio)
       return false;
-    double dy = Math.abs(p_pu.getY() - m_puntoW.getY());
+    double dy = Math.abs(p_pu.getY() - puntoW.getY());
     return dy <= raggio;
   }
 
   @Override
   public String toString() {
     String sz = String.format("%s,Pu={%s}", //
-        m_puntoW.getId(), //
-        m_puntoW.toString());
-    sz += "\n\t" + m_puntoW.toString();
+        puntoW.getId(), //
+        puntoW.toString());
+    sz += "\n\t" + puntoW.toString();
     return sz;
   }
 
   @Override
   public boolean equals(Object p_obj) {
-    if ( (m_puntoW == null) || (p_obj == null) || ! (p_obj instanceof PlotPunto))
+    if ( (puntoW == null) || (p_obj == null) || ! (p_obj instanceof PlotPunto))
       return false;
     PlotPunto altro = (PlotPunto) p_obj;
-    if (altro.m_puntoW == null)
+    if (altro.puntoW == null)
       return false;
-    return m_puntoW.getId().equals(altro.m_puntoW.getId());
+    return puntoW.getId().equals(altro.puntoW.getId());
   }
 
   @Override

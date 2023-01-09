@@ -5,7 +5,8 @@ public enum EPropChange {
   scriviFile, //
   selectVertice, //
   selectBordo, //
-  panelRezized, //
+  nuovoPunto, //
+  panelResized, //
   valPesoChanged, //
   valNomeVertChanged, //
   modificaGeomtria, //
