@@ -19,9 +19,10 @@ import sm.clagenna.bezier.data.ModelloDati;
 import sm.clagenna.bezier.data.Punto;
 import sm.clagenna.bezier.enumerati.EMouseGesture;
 import sm.clagenna.bezier.enumerati.EPropChange;
+import sm.clagenna.bezier.sys.IBroadcast;
 import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 
-public class MyPanel extends JPanel {
+public class MyPanel extends JPanel implements IBroadcast {
   private static final long         serialVersionUID = 6248852778512372166L;
 
   private static final Logger       s_log            = LogManager.getLogger(MyPanel.class);
@@ -125,7 +126,8 @@ public class MyPanel extends JPanel {
     return pRet;
   }
 
-  private void broadc(EPropChange evt, Object newVal) {
+  @Override
+  public void broadc(EPropChange evt, Object newVal) {
     m_broadc.broadCast(this, evt, newVal);
   }
 
