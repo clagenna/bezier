@@ -59,6 +59,13 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
     setRaggio(s_raggioDefault);
     m_colore = s_Vert;
   }
+  
+  public PlotPunto(Punto p_w) {
+    puntoW = p_w;
+    puntoW.setId(p_w.getId());
+    setRaggio(s_raggioDefault);
+    m_colore = s_Vert;
+  }
 
   @Override
   public void paintComponent(Graphics2D p_g2) {
