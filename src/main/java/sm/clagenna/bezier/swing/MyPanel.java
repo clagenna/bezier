@@ -9,11 +9,13 @@ import java.awt.Point;
 import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +35,8 @@ public class MyPanel extends JPanel implements IBroadcast {
   private List<PlotPunto>           m_ppunti;
   private PropertyChangeBroadcaster m_broadc;
 
+  private int                       m_mouButt;
+  private PlotPunto                 m_ppSelez;
   public MyPanel() {
     initComponents();
   }
@@ -48,7 +52,21 @@ public class MyPanel extends JPanel implements IBroadcast {
     addMouseListener(new MouseAdapter() {
       @Override
       public void mouseReleased(MouseEvent p_e) {
-        mouseClickRel(p_e);
+        mouseRelease(p_e);
+      }
+
+      @Override
+      public void mouseClicked(MouseEvent p_e) {
+        mouseClick(p_e);
+      }
+    });
+    addMouseMotionListener(new MouseMotionAdapter() {
+
+      @Override
+      public void mouseDragged(MouseEvent p_e) {
+        boolean bRepaint = mouseTrascinato(p_e);
+        if (bRepaint)
+          repaint();
       }
     });
   }
@@ -109,11 +127,11 @@ public class MyPanel extends JPanel implements IBroadcast {
     }
   }
 
-  public void mouseClickRel(MouseEvent p_e) {
+  protected void mouseClick(MouseEvent p_e) {
     // s_log.debug("mouseRelease(butt={}, qta={})", p_e.getButton(), p_e.getClickCount());
     boolean bRepaint = false;
-    int buttNo = p_e.getButton() * 10 + p_e.getClickCount();
-    EMouseGesture mogest = EMouseGesture.valueOf(buttNo);
+    m_mouButt = p_e.getButton() * 10 + p_e.getClickCount();
+    EMouseGesture mogest = EMouseGesture.valueOf(m_mouButt);
     if (mogest == null) {
       s_log.error("Non interpreto bene il mouse: butt={}, qta={}", p_e.getButton(), p_e.getClickCount());
       return;
@@ -134,19 +152,65 @@ public class MyPanel extends JPanel implements IBroadcast {
       repaint();
   }
 
+  protected void mouseRelease(MouseEvent p_e) {
+    boolean bRepaint = deSelectPunto();
+    if (bRepaint)
+      repaint();
+  }
+  private boolean deSelectPunto() {
+    boolean bSelez = m_ppSelez != null;
+    if (bSelez)
+      m_ppSelez.setSelected(false);
+    m_ppSelez = null;
+    return bSelez;
+  }
+  private boolean mouseTrascinato(MouseEvent p_e) {
+    boolean bRepaint = false;
+    if (m_ppSelez == null)
+      return bRepaint;
+    m_mouButt = 0;
+    if (SwingUtilities.isLeftMouseButton(p_e))
+      m_mouButt = MouseEvent.BUTTON1;
+    else if (SwingUtilities.isRightMouseButton(p_e))
+      m_mouButt = MouseEvent.BUTTON2;
+    else if (SwingUtilities.isMiddleMouseButton(p_e))
+      m_mouButt = MouseEvent.BUTTON3;
+    m_mouButt = m_mouButt * 10 + 1;
+    EMouseGesture mogest = EMouseGesture.valueOf(m_mouButt);
+    if (mogest == null) {
+      System.err.printf("Non interpreto mouse Trasc: butt=%d, qta=%d\n", m_mouButt, p_e.getClickCount());
+      return bRepaint;
+    } else
+      System.out.printf("mouseTrasc(butt=%d, xy=(%d,%d) mgest=%s )\n", //
+          m_mouButt, p_e.getX(), p_e.getY(), mogest.toString());
+    int nx = p_e.getX();
+    int ny = p_e.getY();
+    switch (mogest) {
+      case SingClickSinistro:
+        m_ppSelez.setPuntoDrag(nx, ny);
+        System.out.printf("MyPanel.mouseTrascinato(%s)\n", m_ppSelez.toString());
+        m_model.setPuntoDrag(m_ppSelez);
+        bRepaint = true;
+        break;
+      default:
+        break;
+    }
+    return bRepaint;
+  }
   private boolean checkSelezionePunto(Point p_point) {
     // System.out.println("MyPanel.checkSelezionePunto():" + p_point);
+    boolean bSelez = deSelectPunto();
     boolean bRet = m_model.checkSelezionePunto(p_point);
     if (bRet) {
       Punto bersaglioX = m_model.getBersaglioX();
       Punto bersaglioW = m_model.getTraspondiFinestra().convertiW(bersaglioX);
       resettaSelezionati();
-      PlotPunto ppBersW = trovaPlotBersaglio(bersaglioW);
-      if (ppBersW != null)
-        ppBersW.setSelected(true);
+      m_ppSelez = trovaPlotBersaglio(bersaglioW);
+      if (m_ppSelez != null)
+        m_ppSelez.setSelected(true);
       broadc(EPropChange.selectVertice, bersaglioX);
     }
-    return bRet;
+    return bRet | bSelez;
   }
 
   private void resettaSelezionati() {

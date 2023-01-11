@@ -1,15 +1,16 @@
 package sm.clagenna.bezier.enumerati;
 
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
 public enum EMouseGesture {
-  SingClickSinistro(11), //
-  DoppClickSinistro(12), //
-  SingClickCentrale(21), //
-  DoppClickCentrale(22), //
-  SingClickDestro(31), //
-  DoppClickDestro(32),;
+  SingClickSinistro(MouseEvent.BUTTON1 * 10 + 1), //
+  DoppClickSinistro(MouseEvent.BUTTON1 * 10 + 2), //
+  SingClickCentrale(MouseEvent.BUTTON3 * 10 + 1), //
+  DoppClickCentrale(MouseEvent.BUTTON3 * 10 + 2), //
+  SingClickDestro(MouseEvent.BUTTON2 * 10 + 1), //
+  DoppClickDestro(MouseEvent.BUTTON2 * 10 + 2),;
 
   private int                                m_click;
   private static Map<Integer, EMouseGesture> s_map;

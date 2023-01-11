@@ -36,11 +36,6 @@ public class Punto implements Cloneable {
     id = String.valueOf(s_id++);
   }
 
-  @Override
-  public String toString() {
-    return String.format("%s\t%.3f\t%.3f", id, x, y);
-  }
-
   public boolean isBersaglio(Punto pp) {
     double dx = Math.abs(pp.getX() - x);
     if (dx > s_raggioMaxBersaglio)
@@ -52,6 +47,19 @@ public class Punto implements Cloneable {
   public void setPunto(Punto p_pu) {
     this.x = p_pu.getX();
     this.y = p_pu.getY();
+  }
+
+  public void setPunto(int p_x, int p_y) {
+    this.x = p_x;
+    this.y = p_y;
+  }
+  @Override
+  public String toString() {
+    return String.format("p(%d,%d)", (int)x, (int)y);
+  }
+
+  public String toStringEx() {
+    return String.format("%s\t%.3f\t%.3f", id, x, y);
   }
 
   @Override

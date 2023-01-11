@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 import sm.clagenna.bezier.data.ModelloDati;
 import sm.clagenna.bezier.data.Punto;
+import sm.clagenna.bezier.data.TrasponiFinestra;
 import sm.clagenna.bezier.enumerati.EPropChange;
 import sm.clagenna.bezier.sys.IDisegnabile;
 import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
@@ -120,6 +121,11 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
     return ret;
   }
 
+  public void setPuntoDrag(int p_nx, int p_ny) {
+    puntoW.setPunto(p_nx, p_ny);
+    TrasponiFinestra trasp = m_dati.getTraspondiFinestra();
+    puntoX = trasp.convertiX(puntoW);
+  }
   public void setPunto(Punto p_pu) {
     if (puntoW == null)
       return;
@@ -145,9 +151,10 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
 
   @Override
   public String toString() {
-    String sz = String.format("%s,Pu={%s}", //
+    String sz = String.format("%s,Pu={W=%s, X=%s}", //
         puntoW.getId(), //
-        puntoW.toString());
+        puntoW.toString(), //
+        puntoX.toString());
     sz += "\n\t" + puntoW.toString();
     return sz;
   }
