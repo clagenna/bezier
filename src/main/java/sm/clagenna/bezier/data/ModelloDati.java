@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import lombok.Getter;
 import lombok.Setter;
 import sm.clagenna.bezier.enumerati.EPropChange;
+import sm.clagenna.bezier.swing.PlotPunto;
 import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 
 public class ModelloDati implements Serializable, PropertyChangeListener, Closeable {
@@ -75,6 +76,15 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
 
   public List<Punto> getPunti() {
     return liPunti;
+  }
+
+  public void setPuntoDrag(PlotPunto p_ppSelez) {
+    for ( Punto p : liPunti) {
+      if ( p.getId().equals(p_ppSelez.getId())) {
+        p.setPunto(p_ppSelez.getPuntoX());
+        break;
+      }
+    }
   }
 
   public TrasponiFinestra getTraspondiFinestra() {

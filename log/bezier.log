@@ -68,3 +68,167 @@ sm.clagenna.bezier.data.ModelloDati  2023-01-10 15:24:15 DEBUG: change null val=
 sm.clagenna.bezier.data.ModelloDati  2023-01-10 15:24:16 DEBUG: change null val=java.awt.Point[x=87,y=164]
 sm.clagenna.bezier.data.ModelloDati  2023-01-10 15:24:17 DEBUG: change null val=java.awt.Point[x=176,y=191]
 sm.clagenna.bezier.data.ModelloDati  2023-01-10 15:24:18 DEBUG: change null val=java.awt.Point[x=293,y=89]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 14:47:50 DEBUG: change null val=java.awt.Point[x=72,y=28]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 14:47:51 DEBUG: change null val=java.awt.Point[x=110,y=38]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 14:47:53 DEBUG: change null val=java.awt.Point[x=80,y=137]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 14:47:54 DEBUG: change null val=java.awt.Point[x=149,y=138]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 14:47:56 DEBUG: change null val=4	110,000	562,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 14:53:26 DEBUG: change null val=java.awt.Point[x=22,y=37]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 14:53:30 DEBUG: change null val=java.awt.Point[x=106,y=39]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 14:53:32 DEBUG: change null val=java.awt.Point[x=62,y=99]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 14:53:33 DEBUG: change null val=java.awt.Point[x=172,y=95]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 14:53:34 DEBUG: change null val=4	106,000	561,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 14:56:17 DEBUG: change null val=4	106,000	561,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:07:25 DEBUG: change null val=java.awt.Point[x=88,y=34]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:07:29 DEBUG: change null val=java.awt.Point[x=53,y=79]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:07:31 DEBUG: change null val=java.awt.Point[x=134,y=72]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:07:32 DEBUG: change null val=java.awt.Point[x=263,y=83]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:07:35 DEBUG: change null val=6	134,000	528,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:07:38 DEBUG: change null val=6	134,000	528,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:15:26 DEBUG: change null val=java.awt.Point[x=43,y=71]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:15:27 DEBUG: change null val=java.awt.Point[x=110,y=38]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:15:28 DEBUG: change null val=java.awt.Point[x=175,y=75]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:15:29 DEBUG: change null val=java.awt.Point[x=317,y=26]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:15:31 DEBUG: change null val=6	175,000	525,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:18:02 DEBUG: change null val=6	175,000	525,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:18:07 DEBUG: change null val=4	110,000	562,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:18:09 DEBUG: change null val=4	110,000	562,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:18:11 DEBUG: change null val=2	43,000	529,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:18:28 DEBUG: change null val=4	110,000	562,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:18:29 DEBUG: change null val=6	175,000	525,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:18:31 DEBUG: change null val=8	317,000	574,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:18:33 DEBUG: change null val=4	110,000	562,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:27:03 DEBUG: change null val=java.awt.Point[x=34,y=57]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:27:04 DEBUG: change null val=java.awt.Point[x=111,y=22]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:27:05 DEBUG: change null val=java.awt.Point[x=211,y=49]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:27:06 DEBUG: change null val=java.awt.Point[x=258,y=98]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:27:15 DEBUG: change null val=6	211,000	551,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:27:38 DEBUG: change null val=8	258,000	502,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:27:43 DEBUG: change null val=4	111,000	578,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:27:48 DEBUG: change null val=4	111,000	578,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:38:57 DEBUG: change null val=java.awt.Point[x=32,y=57]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:38:58 DEBUG: change null val=java.awt.Point[x=133,y=39]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:38:59 DEBUG: change null val=java.awt.Point[x=179,y=102]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:39:00 DEBUG: change null val=java.awt.Point[x=81,y=155]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:39:02 DEBUG: change null val=6	179,000	498,000
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:43:52 DEBUG: change null val=java.awt.Point[x=35,y=43]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:43:53 DEBUG: change null val=java.awt.Point[x=75,y=23]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:43:54 DEBUG: change null val=java.awt.Point[x=140,y=34]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:43:55 DEBUG: change null val=java.awt.Point[x=224,y=47]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 15:43:57 DEBUG: change null val=p(140,000,566,000)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:03:16 DEBUG: change null val=java.awt.Point[x=53,y=115]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:03:18 DEBUG: change null val=java.awt.Point[x=107,y=45]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:03:19 DEBUG: change null val=java.awt.Point[x=222,y=58]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:03:20 DEBUG: change null val=java.awt.Point[x=294,y=139]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:03:22 DEBUG: change null val=p(222,542)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:03:44 DEBUG: change null val=java.awt.Point[x=35,y=131]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:03:45 DEBUG: change null val=java.awt.Point[x=63,y=77]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:03:45 DEBUG: change null val=java.awt.Point[x=132,y=31]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:03:46 DEBUG: change null val=java.awt.Point[x=236,y=78]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:03:50 DEBUG: change null val=p(132,569)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:03:55 DEBUG: change null val=p(134,500)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:04:01 DEBUG: change null val=p(236,522)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:04:02 DEBUG: change null val=p(134,500)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:04:04 DEBUG: change null val=p(63,523)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:04:05 DEBUG: change null val=p(35,469)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:04:07 DEBUG: change null val=p(199,484)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:04:11 DEBUG: change null val=p(134,500)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:04:12 DEBUG: change null val=p(92,466)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:04:14 DEBUG: change null val=p(199,484)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:04:15 DEBUG: change null val=p(197,434)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:06:32 DEBUG: change null val=p(198,380)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:14:02 DEBUG: change null val=p(198,380)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:14:03 DEBUG: change null val=p(198,380)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:14:04 DEBUG: change null val=p(183,441)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:16:57 DEBUG: change null val=p(160,395)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:16:59 DEBUG: change null val=p(236,522)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:17:00 DEBUG: change null val=p(251,448)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:17:02 DEBUG: change null val=p(60,475)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:17:05 DEBUG: change null val=p(141,448)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:17:08 DEBUG: change null val=p(204,388)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:17:30 DEBUG: change null val=p(251,472)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:17:31 DEBUG: change null val=p(160,395)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:17:33 DEBUG: change null val=p(269,421)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:17:38 DEBUG: change null val=p(217,388)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:17:43 DEBUG: change null val=p(235,397)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:17:47 DEBUG: change null val=p(250,386)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:20:30 DEBUG: change null val=p(251,472)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:20:31 DEBUG: change null val=p(251,472)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:20:32 DEBUG: change null val=p(251,472)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:20:33 DEBUG: change null val=p(251,472)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:20:51 DEBUG: change null val=p(251,472)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:20:53 DEBUG: change null val=p(208,501)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:20:55 DEBUG: change null val=p(255,522)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:20:57 DEBUG: change null val=p(250,386)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:20:59 DEBUG: change null val=p(198,416)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:21:01 DEBUG: change null val=p(92,466)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:21:56 DEBUG: change null val=java.awt.Point[x=33,y=71]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:21:56 DEBUG: change null val=java.awt.Point[x=33,y=71]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:21:58 DEBUG: change null val=java.awt.Point[x=110,y=35]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:21:58 DEBUG: change null val=java.awt.Point[x=110,y=35]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:21:59 DEBUG: change null val=java.awt.Point[x=157,y=27]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:21:59 DEBUG: change null val=java.awt.Point[x=157,y=27]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:03 DEBUG: change null val=java.awt.Point[x=58,y=101]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:03 DEBUG: change null val=java.awt.Point[x=58,y=101]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:13 DEBUG: change null val=p(110,565)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:13 DEBUG: change null val=p(110,565)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:16 DEBUG: change null val=p(126,489)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:18 DEBUG: change null val=p(175,501)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:20 DEBUG: change null val=p(157,573)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:20 DEBUG: change null val=p(157,573)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:21 DEBUG: change null val=p(212,550)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:39 DEBUG: change null val=java.awt.Point[x=61,y=153]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:41 DEBUG: change null val=java.awt.Point[x=92,y=164]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:42 DEBUG: change null val=p(61,447)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:47 DEBUG: change null val=p(92,436)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:22:59 DEBUG: change null val=p(143,415)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:23:03 DEBUG: change null val=java.awt.Point[x=169,y=206]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:23:06 DEBUG: change null val=p(169,394)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:23:10 DEBUG: change null val=p(143,415)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:23:12 DEBUG: change null val=p(81,392)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:23:16 DEBUG: change null val=p(143,415)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:23:17 DEBUG: change null val=p(207,371)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:24:07 DEBUG: change null val=java.awt.Point[x=20,y=60]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:24:09 DEBUG: change null val=java.awt.Point[x=69,y=21]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:24:09 DEBUG: change null val=java.awt.Point[x=123,y=49]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:24:10 DEBUG: change null val=java.awt.Point[x=95,y=123]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:24:11 DEBUG: change null val=java.awt.Point[x=121,y=146]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:24:16 DEBUG: change null val=p(121,454)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:24:20 DEBUG: change null val=p(95,477)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:24:23 DEBUG: change null val=p(123,551)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:24:39 DEBUG: change null val=p(69,579)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:24:43 DEBUG: change null val=p(226,488)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:24:56 DEBUG: change null val=p(92,469)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:25:00 DEBUG: change null val=p(169,443)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:25:07 DEBUG: change null val=p(86,536)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:25:13 DEBUG: change null val=p(230,426)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:25:22 DEBUG: change null val=p(169,443)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:26:28 DEBUG: change null val=p(230,426)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:29:49 DEBUG: change null val=p(235,482)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:32:20 DEBUG: change null val=p(269,398)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:34:08 DEBUG: change null val=p(254,372)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:34:11 DEBUG: change null val=p(208,392)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:34:17 DEBUG: change null val=p(169,443)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 16:34:21 DEBUG: change null val=p(278,391)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:05:04 DEBUG: change null val=java.awt.Point[x=52,y=61]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:05:06 DEBUG: change null val=java.awt.Point[x=86,y=39]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:05:07 DEBUG: change null val=java.awt.Point[x=154,y=47]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:05:08 DEBUG: change null val=java.awt.Point[x=172,y=89]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:05:11 DEBUG: change null val=p(154,553)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:05:17 DEBUG: change null val=p(172,511)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:05:26 DEBUG: change null val=p(86,561)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:12:47 DEBUG: change null val=java.awt.Point[x=82,y=103]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:12:48 DEBUG: change null val=java.awt.Point[x=150,y=68]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:12:49 DEBUG: change null val=java.awt.Point[x=249,y=69]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:12:49 DEBUG: change null val=java.awt.Point[x=241,y=133]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:12:54 DEBUG: change null val=p(249,531)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:13:04 DEBUG: change null val=p(241,467)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:13:10 DEBUG: change null val=p(150,532)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:13:13 DEBUG: change null val=p(82,497)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:18:34 DEBUG: change null val=java.awt.Point[x=64,y=85]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:18:35 DEBUG: change null val=java.awt.Point[x=119,y=51]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:18:37 DEBUG: change null val=java.awt.Point[x=185,y=91]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:18:38 DEBUG: change null val=java.awt.Point[x=134,y=144]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:18:39 DEBUG: change null val=java.awt.Point[x=257,y=203]
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:18:40 DEBUG: change null val=p(257,397)
+sm.clagenna.bezier.data.ModelloDati  2023-01-11 17:18:48 DEBUG: change null val=p(134,456)
