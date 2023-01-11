@@ -37,6 +37,7 @@ public class MyPanel extends JPanel implements IBroadcast {
 
   private int                       m_mouButt;
   private PlotPunto                 m_ppSelez;
+
   public MyPanel() {
     initComponents();
   }
@@ -157,6 +158,7 @@ public class MyPanel extends JPanel implements IBroadcast {
     if (bRepaint)
       repaint();
   }
+
   private boolean deSelectPunto() {
     boolean bSelez = m_ppSelez != null;
     if (bSelez)
@@ -164,6 +166,7 @@ public class MyPanel extends JPanel implements IBroadcast {
     m_ppSelez = null;
     return bSelez;
   }
+
   private boolean mouseTrascinato(MouseEvent p_e) {
     boolean bRepaint = false;
     if (m_ppSelez == null)
@@ -180,15 +183,15 @@ public class MyPanel extends JPanel implements IBroadcast {
     if (mogest == null) {
       System.err.printf("Non interpreto mouse Trasc: butt=%d, qta=%d\n", m_mouButt, p_e.getClickCount());
       return bRepaint;
-    } else
-      System.out.printf("mouseTrasc(butt=%d, xy=(%d,%d) mgest=%s )\n", //
-          m_mouButt, p_e.getX(), p_e.getY(), mogest.toString());
+    } // else
+    //      System.out.printf("mouseTrasc(butt=%d, xy=(%d,%d) mgest=%s )\n", //
+    //          m_mouButt, p_e.getX(), p_e.getY(), mogest.toString());
     int nx = p_e.getX();
     int ny = p_e.getY();
     switch (mogest) {
       case SingClickSinistro:
         m_ppSelez.setPuntoDrag(nx, ny);
-        System.out.printf("MyPanel.mouseTrascinato(%s)\n", m_ppSelez.toString());
+        // System.out.printf("MyPanel.mouseTrascinato(%s)\n", m_ppSelez.toString());
         m_model.setPuntoDrag(m_ppSelez);
         bRepaint = true;
         break;
@@ -197,6 +200,7 @@ public class MyPanel extends JPanel implements IBroadcast {
     }
     return bRepaint;
   }
+
   private boolean checkSelezionePunto(Point p_point) {
     // System.out.println("MyPanel.checkSelezionePunto():" + p_point);
     boolean bSelez = deSelectPunto();

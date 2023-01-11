@@ -143,7 +143,7 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
       return true;
     double dx = Math.abs(p_pu.getX() - puntoW.getX());
     double dy = Math.abs(p_pu.getY() - puntoW.getY());
-    System.out.printf("checkBersaglio(%.2f,%.2f)\n", dx, dy);
+    // System.out.printf("checkBersaglio(%.2f,%.2f)\n", dx, dy);
     if (dx > raggio)
       return false;
     return dy <= raggio;
