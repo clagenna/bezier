@@ -77,7 +77,6 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
   public List<Punto> getPunti() {
     return liPunti;
   }
-
   public void setPuntoDrag(PlotPunto p_ppSelez) {
     for ( Punto p : liPunti) {
       if ( p.getId().equals(p_ppSelez.getId())) {

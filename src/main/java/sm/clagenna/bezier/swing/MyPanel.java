@@ -1,13 +1,16 @@
 package sm.clagenna.bezier.swing;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +36,6 @@ public class MyPanel extends JPanel implements IBroadcast {
   private PropertyChangeBroadcaster m_broadc;
 
   private int                       m_mouButt;
-
   private PlotPunto                 m_ppSelez;
 
   public MyPanel() {
@@ -68,17 +70,42 @@ public class MyPanel extends JPanel implements IBroadcast {
           repaint();
       }
     });
-
   }
 
   @Override
   protected void paintComponent(Graphics p_g) {
     super.paintComponent(p_g);
     Graphics2D g2 = (Graphics2D) p_g.create();
-    Dimension dim = getSize();
-    g2.setColor(Color.gray);
+    Dimension dim = getPreferredSize();
+    g2.setColor(Color.lightGray);
     g2.drawLine(0, 0, dim.width, dim.height);
+    g2.drawLine(dim.width, 0, dim.width, dim.height);
+    g2.drawLine(0, dim.height, dim.width, dim.height);
+    disegnaBordi(g2);
     disegnaPunti(g2);
+    disegnaBezier(g2);
+    g2.dispose();
+  }
+
+  private void disegnaBordi(Graphics2D p_g2) {
+    if (m_ppunti == null || m_ppunti.size() <= 1)
+      return;
+    Graphics2D g2 = (Graphics2D) p_g2.create();
+    PlotPunto prev = null;
+    g2.setColor(Color.cyan);
+    Stroke stk = new BasicStroke(2);
+    g2.setColor(Color.green);
+    g2.setStroke(stk);
+    for (PlotPunto p : m_ppunti) {
+      if (prev != null) {
+        Punto p1 = prev.getPuntoW();
+        Punto p2 = p.getPuntoW();
+        var li = new Line2D.Double(p1.getX(), p1.getY(), //
+            p2.getX(), p2.getY());
+        g2.draw(li);
+      }
+      prev = p;
+    }
     g2.dispose();
   }
 
@@ -90,6 +117,15 @@ public class MyPanel extends JPanel implements IBroadcast {
     for (PlotPunto p : m_ppunti)
       p.paintComponent(g2);
     g2.dispose();
+  }
+
+  private void disegnaBezier(Graphics2D p_g2) {
+    if (m_ppunti == null || m_ppunti.size() < 4)
+      return;
+    for (int i = 3; i < m_ppunti.size(); i++) {
+      PlotBezier bez = new PlotBezier(m_ppunti.get(i - 3), m_ppunti.get(i - 2), m_ppunti.get(i - 1), m_ppunti.get(i));
+      bez.paintComponent(p_g2);
+    }
   }
 
   protected void mouseClick(MouseEvent p_e) {
@@ -147,15 +183,15 @@ public class MyPanel extends JPanel implements IBroadcast {
     if (mogest == null) {
       System.err.printf("Non interpreto mouse Trasc: butt=%d, qta=%d\n", m_mouButt, p_e.getClickCount());
       return bRepaint;
-    } else
-      System.out.printf("mouseTrasc(butt=%d, xy=(%d,%d) mgest=%s )\n", //
-          m_mouButt, p_e.getX(), p_e.getY(), mogest.toString());
+    } // else
+    //      System.out.printf("mouseTrasc(butt=%d, xy=(%d,%d) mgest=%s )\n", //
+    //          m_mouButt, p_e.getX(), p_e.getY(), mogest.toString());
     int nx = p_e.getX();
     int ny = p_e.getY();
     switch (mogest) {
       case SingClickSinistro:
         m_ppSelez.setPuntoDrag(nx, ny);
-        System.out.printf("MyPanel.mouseTrascinato(%s)\n", m_ppSelez.toString());
+        // System.out.printf("MyPanel.mouseTrascinato(%s)\n", m_ppSelez.toString());
         m_model.setPuntoDrag(m_ppSelez);
         bRepaint = true;
         break;

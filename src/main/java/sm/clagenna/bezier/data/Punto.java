@@ -25,6 +25,10 @@ public class Punto implements Cloneable {
     setY(y);
     id = String.valueOf(Punto.s_id++);
   }
+  public Punto(double x, double y, int i) {
+    setX(x);
+    setY(y);
+  }
 
   public Punto(Point p_point) {
     setX(p_point.getX());
@@ -49,9 +53,6 @@ public class Punto implements Cloneable {
     this.x = p_x;
     this.y = p_y;
   }
-  
-  
-
   @Override
   public String toString() {
     return String.format("p(%d,%d)", (int)x, (int)y);

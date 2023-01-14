@@ -60,6 +60,13 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
     setRaggio(s_raggioDefault);
     m_colore = s_Vert;
   }
+  
+  public PlotPunto(Punto p_w) {
+    puntoW = p_w;
+    puntoW.setId(p_w.getId());
+    setRaggio(s_raggioDefault);
+    m_colore = s_Vert;
+  }
 
   @Override
   public void paintComponent(Graphics2D p_g2) {
@@ -119,7 +126,6 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
     TrasponiFinestra trasp = m_dati.getTraspondiFinestra();
     puntoX = trasp.convertiX(puntoW);
   }
-
   public void setPunto(Punto p_pu) {
     if (puntoW == null)
       return;
@@ -137,7 +143,7 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
       return true;
     double dx = Math.abs(p_pu.getX() - puntoW.getX());
     double dy = Math.abs(p_pu.getY() - puntoW.getY());
-    System.out.printf("checkBersaglio(%.2f,%.2f)\n", dx, dy);
+    // System.out.printf("checkBersaglio(%.2f,%.2f)\n", dx, dy);
     if (dx > raggio)
       return false;
     return dy <= raggio;
