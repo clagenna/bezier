@@ -25,9 +25,11 @@ public class Punto implements Cloneable {
     setY(y);
     id = String.valueOf(Punto.s_id++);
   }
+
   public Punto(double x, double y, int i) {
     setX(x);
     setY(y);
+    id = String.valueOf(i);
   }
 
   public Punto(Point p_point) {
@@ -53,9 +55,10 @@ public class Punto implements Cloneable {
     this.x = p_x;
     this.y = p_y;
   }
+
   @Override
   public String toString() {
-    return String.format("p(%d,%d)", (int)x, (int)y);
+    return String.format("p(%d,%d)", (int) x, (int) y);
   }
 
   public String toStringEx() {
@@ -64,9 +67,8 @@ public class Punto implements Cloneable {
 
   @Override
   public boolean equals(Object p_obj) {
-    if ( (p_obj == null) || ! (p_obj instanceof Punto))
+    if ( (p_obj == null) || ! (p_obj instanceof Punto altro))
       return false;
-    Punto altro = (Punto) p_obj;
     return getId().equals(altro.getId());
   }
 

@@ -3,6 +3,7 @@ package sm.clagenna.bezier.data;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.beans.Beans;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -58,6 +59,8 @@ public class TrasponiFinestra implements PropertyChangeListener {
   }
 
   private void inizializza() {
+    if ( Beans.isDesignTime())
+      return;
     PropertyChangeBroadcaster broadc = PropertyChangeBroadcaster.getInst();
     broadc.removePropertyChangeListener(getClass());
     broadc.addPropertyChangeListener(this);
@@ -143,9 +146,9 @@ public class TrasponiFinestra implements PropertyChangeListener {
   @Override
   public void propertyChange(PropertyChangeEvent p_evt) {
     Object obj = p_evt.getOldValue();
-    if ( ! (obj instanceof EPropChange))
+    if ( ! (obj instanceof EPropChange pch))
       return;
-    EPropChange pch = (EPropChange) obj;
+
     switch (pch) {
 
       case panelResized:

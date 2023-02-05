@@ -161,9 +161,9 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
 
   @Override
   public boolean equals(Object p_obj) {
-    if ( (puntoW == null) || (p_obj == null) || ! (p_obj instanceof PlotPunto))
+    if ( (puntoW == null) || (p_obj == null) || ! (p_obj instanceof PlotPunto altro))
       return false;
-    PlotPunto altro = (PlotPunto) p_obj;
+
     if (altro.puntoW == null)
       return false;
     return puntoW.getId().equals(altro.puntoW.getId());

@@ -2,6 +2,7 @@ package sm.clagenna.bezier.data;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.beans.Beans;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Closeable;
@@ -31,22 +32,30 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
   private boolean             disegnaGriglia;
   private TrasponiFinestra    m_trasp;
 
+  public enum TipoCurva {
+    Bezier,
+    Spline
+  }
+  @Getter @Setter
+  private TipoCurva tipoCurva =TipoCurva.Bezier;
+  
   public ModelloDati() {
     initData();
   }
 
   private void initData() {
     m_trasp = new TrasponiFinestra(this);
-    PropertyChangeBroadcaster.getInst().addPropertyChangeListener(this);
+    if ( !Beans.isDesignTime())
+      PropertyChangeBroadcaster.getInst().addPropertyChangeListener(this);
   }
 
   @Override
   public void propertyChange(PropertyChangeEvent p_evt) {
-    s_log.debug("change {} val={}", p_evt.getPropertyName(), p_evt.getNewValue());
+    s_log.debug("changeOf({}) val={}", p_evt.getPropertyName(), p_evt.getNewValue());
     Object obj = p_evt.getOldValue();
-    if ( ! (obj instanceof EPropChange))
+    if ( ! (obj instanceof EPropChange pch))
       return;
-    EPropChange pch = (EPropChange) obj;
+
     switch (pch) {
 
       case nuovoPunto:
@@ -62,8 +71,8 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
   private void evtNuovoPunto(PropertyChangeEvent p_evt) {
     Punto p = null;
     Object obj = p_evt.getNewValue();
-    if (obj instanceof Point)
-      p = new Punto((Point) obj);
+    if (obj instanceof Point po)
+      p = new Punto(po);
     if (p == null && obj instanceof Punto)
       p = (Punto) obj;
     if (p == null) {
@@ -77,9 +86,10 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
   public List<Punto> getPunti() {
     return liPunti;
   }
+
   public void setPuntoDrag(PlotPunto p_ppSelez) {
-    for ( Punto p : liPunti) {
-      if ( p.getId().equals(p_ppSelez.getId())) {
+    for (Punto p : liPunti) {
+      if (p.getId().equals(p_ppSelez.getId())) {
         p.setPunto(p_ppSelez.getPuntoX());
         break;
       }

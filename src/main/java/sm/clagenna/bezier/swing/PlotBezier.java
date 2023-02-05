@@ -12,6 +12,11 @@ import org.apache.logging.log4j.Logger;
 import sm.clagenna.bezier.data.Punto;
 import sm.clagenna.bezier.sys.IDisegnabile;
 
+/**
+ * vedi anche {@linkplain https://cubic-bezier.com/#.78,.05,.12,.97}
+ * @author claudio
+ *
+ */
 public class PlotBezier implements IDisegnabile {
   @SuppressWarnings("unused")
   private static final Logger s_log = LogManager.getLogger(PlotBezier.class);
@@ -41,7 +46,7 @@ public class PlotBezier implements IDisegnabile {
     else if (p3 == null)
       p3 = p;
     else {
-      throw new UnsupportedOperationException("Adding more point than due!");
+      throw new UnsupportedOperationException("Adding more point than two!");
     }
   }
 

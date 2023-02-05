@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Line2D;
+import java.beans.Beans;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import javax.swing.SwingUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import lombok.Getter;
 import sm.clagenna.bezier.data.ModelloDati;
 import sm.clagenna.bezier.data.Punto;
 import sm.clagenna.bezier.enumerati.EMouseGesture;
@@ -31,7 +33,8 @@ public class MyPanel extends JPanel implements IBroadcast {
   private static final long         serialVersionUID = 6248852778512372166L;
 
   private static final Logger       s_log            = LogManager.getLogger(MyPanel.class);
-  private ModelloDati               m_model;
+  @Getter
+  private ModelloDati               modello;
   private List<PlotPunto>           m_ppunti;
   private PropertyChangeBroadcaster m_broadc;
 
@@ -47,9 +50,10 @@ public class MyPanel extends JPanel implements IBroadcast {
     setOpaque(true);
     Dimension area = new Dimension(800, 600);
     setPreferredSize(area);
-    m_broadc = PropertyChangeBroadcaster.getInst();
-    m_model = new ModelloDati();
-    m_model.setDimensione(area);
+    if ( !Beans.isDesignTime())
+      m_broadc = PropertyChangeBroadcaster.getInst();
+    modello = new ModelloDati();
+    modello.setDimensione(area);
     addMouseListener(new MouseAdapter() {
       @Override
       public void mouseReleased(MouseEvent p_e) {
@@ -81,9 +85,18 @@ public class MyPanel extends JPanel implements IBroadcast {
     g2.drawLine(0, 0, dim.width, dim.height);
     g2.drawLine(dim.width, 0, dim.width, dim.height);
     g2.drawLine(0, dim.height, dim.width, dim.height);
+    ModelloDati.TipoCurva tip = getModello().getTipoCurva();
     disegnaBordi(g2);
     disegnaPunti(g2);
-    disegnaBezier(g2);
+    switch (tip) {
+      case Bezier:
+        disegnaBezier(g2);
+        break;
+      case Spline:
+        disegnaSpline(g2);
+        break;
+
+    }
     g2.dispose();
   }
 
@@ -126,6 +139,16 @@ public class MyPanel extends JPanel implements IBroadcast {
       PlotBezier bez = new PlotBezier(m_ppunti.get(i - 3), m_ppunti.get(i - 2), m_ppunti.get(i - 1), m_ppunti.get(i));
       bez.paintComponent(p_g2);
     }
+  }
+
+  private void disegnaSpline(Graphics2D p_g2) {
+    if (m_ppunti == null || m_ppunti.size() <= 2) {
+      s_log.warn("Non ho punti da disegnare");
+      return;
+    }
+    PlotSpline spl = new PlotSpline();
+    spl.setPunti(m_ppunti);
+    spl.paintComponent(p_g2);
   }
 
   protected void mouseClick(MouseEvent p_e) {
@@ -188,15 +211,11 @@ public class MyPanel extends JPanel implements IBroadcast {
     //          m_mouButt, p_e.getX(), p_e.getY(), mogest.toString());
     int nx = p_e.getX();
     int ny = p_e.getY();
-    switch (mogest) {
-      case SingClickSinistro:
-        m_ppSelez.setPuntoDrag(nx, ny);
-        // System.out.printf("MyPanel.mouseTrascinato(%s)\n", m_ppSelez.toString());
-        m_model.setPuntoDrag(m_ppSelez);
-        bRepaint = true;
-        break;
-      default:
-        break;
+    if (mogest == EMouseGesture.SingClickSinistro) {
+      m_ppSelez.setPuntoDrag(nx, ny);
+      // System.out.printf("MyPanel.mouseTrascinato(%s)\n", m_ppSelez.toString());
+      modello.setPuntoDrag(m_ppSelez);
+      bRepaint = true;
     }
     return bRepaint;
   }
@@ -204,10 +223,10 @@ public class MyPanel extends JPanel implements IBroadcast {
   private boolean checkSelezionePunto(Point p_point) {
     // System.out.println("MyPanel.checkSelezionePunto():" + p_point);
     boolean bSelez = deSelectPunto();
-    boolean bRet = m_model.checkSelezionePunto(p_point);
+    boolean bRet = modello.checkSelezionePunto(p_point);
     if (bRet) {
-      Punto bersaglioX = m_model.getBersaglioX();
-      Punto bersaglioW = m_model.getTraspondiFinestra().convertiW(bersaglioX);
+      Punto bersaglioX = modello.getBersaglioX();
+      Punto bersaglioW = modello.getTraspondiFinestra().convertiW(bersaglioX);
       resettaSelezionati();
       m_ppSelez = trovaPlotBersaglio(bersaglioW);
       if (m_ppSelez != null)
@@ -240,9 +259,9 @@ public class MyPanel extends JPanel implements IBroadcast {
   private boolean creaPunto(Point p_pointW) {
     boolean bRet = true;
     broadc(EPropChange.nuovoPunto, p_pointW);
-    Punto lastPX = m_model.getLastAddedPunto();
-    Punto lastPW = m_model.getTraspondiFinestra().convertiW(lastPX);
-    PlotPunto plp = new PlotPunto(m_model, lastPW);
+    Punto lastPX = modello.getLastAddedPunto();
+    Punto lastPW = modello.getTraspondiFinestra().convertiW(lastPX);
+    PlotPunto plp = new PlotPunto(modello, lastPW);
     if (m_ppunti == null)
       m_ppunti = new ArrayList<>();
     m_ppunti.add(plp);
