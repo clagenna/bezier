@@ -1,6 +1,5 @@
 package prova.spline;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +34,7 @@ public class ProvaMiaInterp {
   }
 
   private double trovaPunto(double p_x) {
-    NumberFormat fmt = DecimalFormat.getInstance();
+    NumberFormat fmt = NumberFormat.getInstance();
     String sz2 = fmt.format(p_x);
     for (Punto p : m_li) {
       String sz1 = fmt.format(p.getX());
@@ -62,6 +61,7 @@ public class ProvaMiaInterp {
     return qta;
   }
 
+  @SuppressWarnings("unused")
   private int creaLista2() {
     m_li = new ArrayList<>();
     m_li.add(new Punto(0, 15));

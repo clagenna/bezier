@@ -3,6 +3,8 @@ package sm.clagenna.bezier.data;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
 import sm.clagenna.bezier.swing.PlotPunto;
 
 /**
@@ -14,9 +16,15 @@ public class SplineInterp {
   private List<Punto>  m_liPunti;
   // tangenti di Hermite
   private List<Double> m_her;
+  @Getter
+  @Setter
+  private Double       minX;
+  @Getter
+  @Setter
+  private Double       maxX;
 
   public SplineInterp() {
-    // 
+    //
   }
 
   public void creaInterpolazionePP(List<PlotPunto> p_ppunti) {
@@ -28,6 +36,8 @@ public class SplineInterp {
     if (p_li == null || p_li.size() < 2)
       throw new IllegalArgumentException("Non ci sono punti a sufficienza");
     m_liPunti = p_li;
+    minX = m_liPunti.stream().map(s -> s.getX()).min(Double::compare).get();
+    maxX = m_liPunti.stream().map(s -> s.getX()).max(Double::compare).get();
     int n = p_li.size();
     Double zero = Double.valueOf(0);
     double[] arrDeriv = new double[n - 1];
@@ -43,9 +53,9 @@ public class SplineInterp {
       // calcolo della pendenza fra i due punti
       arrDeriv[i] = (p2.getY() - p1.getY()) / h;
     }
-//    System.out.println("--- derivative --");
-//    for (int i = 0; i < n - 1; i++)
-//      System.out.printf("d(%d)=%8.3f\n", i, arrDeriv[i]);
+    //    System.out.println("--- derivative --");
+    //    for (int i = 0; i < n - 1; i++)
+    //      System.out.printf("d(%d)=%8.3f\n", i, arrDeriv[i]);
 
     // inizializzo le secanti come media delle pendenze
     arrSecan[0] = arrDeriv[0];
@@ -53,9 +63,9 @@ public class SplineInterp {
       arrSecan[i] = (arrDeriv[i - 1] + arrDeriv[i]) / 2f;
     }
     arrSecan[n - 1] = arrDeriv[n - 2];
-//    System.out.println("--- tangents(1) --");
-//    for (int i = 0; i < n; i++)
-//      System.out.printf("m1(%d)=%8.3f\n", i, arrSecan[i]);
+    //    System.out.println("--- tangents(1) --");
+    //    for (int i = 0; i < n; i++)
+    //      System.out.printf("m1(%d)=%8.3f\n", i, arrSecan[i]);
 
     // aggiorno le tangenti di Hermite per mantenere la continuita
     for (int i = 0; i < n - 1; i++) {
@@ -74,9 +84,9 @@ public class SplineInterp {
         arrSecan[i + 1] = t * b * arrDeriv[i];
       }
     }
-//    System.out.println("--- tangents(2) --");
-//    for (int i = 0; i < n; i++)
-//      System.out.printf("m1(%d)=%8.3f\n", i, arrSecan[i]);
+    //    System.out.println("--- tangents(2) --");
+    //    for (int i = 0; i < n; i++)
+    //      System.out.printf("m1(%d)=%8.3f\n", i, arrSecan[i]);
 
     m_her = Arrays.asList(arrSecan);
   }

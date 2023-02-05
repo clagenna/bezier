@@ -36,8 +36,8 @@ public class PlotSpline implements IDisegnabile {
 
   private void disegnaSpline(Graphics2D g2) {
     g2.setColor(Color.pink);
-    double dblMin = m_spl.minX();
-    double dblMax = m_spl.maxX();
+    double dblMin = m_spl.getMinX();
+    double dblMax = m_spl.getMaxX();
     
   }
 
