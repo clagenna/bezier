@@ -11,6 +11,7 @@ public enum EPropChange {
   valNomeVertChanged, //
   modificaGeomtria, //
   notificaStatus, //
+  tipoGrafico,
   ridisegna,
   altro; //
 

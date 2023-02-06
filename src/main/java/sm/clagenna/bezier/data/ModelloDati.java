@@ -33,12 +33,12 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
   private TrasponiFinestra    m_trasp;
 
   public enum TipoCurva {
-    Bezier,
-    Spline
+    Bezier, Spline
   }
-  @Getter @Setter
-  private TipoCurva tipoCurva =TipoCurva.Bezier;
-  
+
+  @Getter
+  private TipoCurva tipoCurva = TipoCurva.Bezier;
+
   public ModelloDati() {
     initData();
   }
@@ -85,6 +85,13 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
 
   public List<Punto> getPunti() {
     return liPunti;
+  }
+
+  public void setTipoCurva(TipoCurva p) {
+    if (p == tipoCurva)
+      return;
+    tipoCurva = p;
+    PropertyChangeBroadcaster.getInst().broadCast(this, EPropChange.tipoGrafico, p);
   }
 
   public void setPuntoDrag(PlotPunto p_ppSelez) {

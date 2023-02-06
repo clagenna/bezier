@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.Beans;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
@@ -15,9 +17,10 @@ import javax.swing.WindowConstants;
 
 import sm.clagenna.bezier.data.ModelloDati;
 import sm.clagenna.bezier.data.ModelloDati.TipoCurva;
+import sm.clagenna.bezier.enumerati.EPropChange;
 import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 
-public class MainJFrame extends JFrame {
+public class MainJFrame extends JFrame implements PropertyChangeListener {
   private static final long         serialVersionUID = -2772804427885900779L;
   @SuppressWarnings("unused")
   private PropertyChangeBroadcaster m_broadc;
@@ -37,6 +40,7 @@ public class MainJFrame extends JFrame {
   private void initComponents() {
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     m_broadc = new PropertyChangeBroadcaster();
+    m_broadc.addPropertyChangeListener(this);
     m_pan = new MyPanel();
     JScrollPane scroll = new JScrollPane(m_pan);
     Dimension area = new Dimension(400, 300);
@@ -135,6 +139,23 @@ public class MainJFrame extends JFrame {
     System.out.println("MainJFrame.mnuEsciClick()");
     this.dispose();
     // System.exit(0);
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent p_evt) {
+    Object obj = p_evt.getOldValue();
+    if ( ! (obj instanceof EPropChange pch))
+      return;
+
+    switch (pch) {
+      case ridisegna:
+      case tipoGrafico:
+        getContentPane().repaint();
+        break;
+      default:
+        break;
+    }
+
   }
 
 }

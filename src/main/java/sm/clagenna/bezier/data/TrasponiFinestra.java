@@ -153,7 +153,7 @@ public class TrasponiFinestra implements PropertyChangeListener {
 
       case panelResized:
         Dimension dim = (Dimension) p_evt.getNewValue();
-        System.out.println("TrasponiFinestra.propertyChange():" + dim.toString());
+        // System.out.println("TrasponiFinestra.propertyChange():" + dim.toString());
         setWidth(dim.getWidth());
         setEight(dim.getHeight());
         break;

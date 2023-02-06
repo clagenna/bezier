@@ -39,6 +39,7 @@ public class MyPanel extends JPanel implements IBroadcast {
   private PropertyChangeBroadcaster m_broadc;
 
   private int                       m_mouButt;
+
   private PlotPunto                 m_ppSelez;
 
   public MyPanel() {
@@ -74,6 +75,16 @@ public class MyPanel extends JPanel implements IBroadcast {
           repaint();
       }
     });
+    addMouseMotionListener(new MouseMotionAdapter() {
+
+      @Override
+      public void mouseDragged(MouseEvent p_e) {
+        boolean bRepaint = mouseTrascinato(p_e);
+        if (bRepaint)
+          repaint();
+      }
+    });
+
   }
 
   @Override
@@ -87,16 +98,19 @@ public class MyPanel extends JPanel implements IBroadcast {
     g2.drawLine(0, dim.height, dim.width, dim.height);
     ModelloDati.TipoCurva tip = getModello().getTipoCurva();
     disegnaBordi(g2);
-    disegnaPunti(g2);
-    switch (tip) {
-      case Bezier:
-        disegnaBezier(g2);
-        break;
-      case Spline:
-        disegnaSpline(g2);
-        break;
-
+    try {
+      switch (tip) {
+        case Bezier:
+          disegnaBezier(g2);
+          break;
+        case Spline:
+          disegnaSpline(g2);
+          break;
+      }
+    } catch (Exception l_e) {
+      System.err.println("Errore:" + l_e.getMessage());
     }
+    disegnaPunti(g2);
     g2.dispose();
   }
 
@@ -211,11 +225,15 @@ public class MyPanel extends JPanel implements IBroadcast {
     //          m_mouButt, p_e.getX(), p_e.getY(), mogest.toString());
     int nx = p_e.getX();
     int ny = p_e.getY();
-    if (mogest == EMouseGesture.SingClickSinistro) {
-      m_ppSelez.setPuntoDrag(nx, ny);
-      // System.out.printf("MyPanel.mouseTrascinato(%s)\n", m_ppSelez.toString());
-      modello.setPuntoDrag(m_ppSelez);
-      bRepaint = true;
+    switch (mogest) {
+      case SingClickSinistro:
+        m_ppSelez.setPuntoDrag(nx, ny);
+        // System.out.printf("MyPanel.mouseTrascinato(%s)\n", m_ppSelez.toString());
+        modello.setPuntoDrag(m_ppSelez);
+        bRepaint = true;
+        break;
+      default:
+        break;
     }
     return bRepaint;
   }
