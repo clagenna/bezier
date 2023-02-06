@@ -10,3 +10,4 @@ Arguments treated:
 - drawing of strokes between points
 - drag of point
 - drawing of bezier curve between 4 consecutive points
+
