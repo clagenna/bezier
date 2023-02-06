@@ -126,7 +126,6 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
     TrasponiFinestra trasp = m_dati.getTraspondiFinestra();
     puntoX = trasp.convertiX(puntoW);
   }
-
   public void setPunto(Punto p_pu) {
     if (puntoW == null)
       return;

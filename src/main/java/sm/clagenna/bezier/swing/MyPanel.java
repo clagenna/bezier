@@ -39,7 +39,6 @@ public class MyPanel extends JPanel implements IBroadcast {
   private PropertyChangeBroadcaster m_broadc;
 
   private int                       m_mouButt;
-
   private PlotPunto                 m_ppSelez;
 
   public MyPanel() {
@@ -112,6 +111,7 @@ public class MyPanel extends JPanel implements IBroadcast {
     }
     disegnaPunti(g2);
     g2.dispose();
+
   }
 
   private void disegnaBordi(Graphics2D p_g2) {

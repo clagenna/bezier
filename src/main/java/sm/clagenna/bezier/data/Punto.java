@@ -25,6 +25,10 @@ public class Punto implements Cloneable {
     setY(y);
     id = String.valueOf(Punto.s_id++);
   }
+  public Punto(double x, double y, int i) {
+    setX(x);
+    setY(y);
+  }
 
   public Punto(double x, double y, int i) {
     setX(x);
