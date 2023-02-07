@@ -15,7 +15,7 @@ import lombok.Setter;
 import sm.clagenna.bezier.enumerati.EPropChange;
 import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 
-public class TrasponiFinestra implements PropertyChangeListener {
+public class TrasponiFinestra implements PropertyChangeListener, Cloneable {
   private static final Logger   s_log         = LogManager.getLogger(TrasponiFinestra.class);
   public static double          s_zoomDefault = 1F;
 
@@ -59,7 +59,7 @@ public class TrasponiFinestra implements PropertyChangeListener {
   }
 
   private void inizializza() {
-    if ( Beans.isDesignTime())
+    if (Beans.isDesignTime())
       return;
     PropertyChangeBroadcaster broadc = PropertyChangeBroadcaster.getInst();
     broadc.removePropertyChangeListener(getClass());
@@ -163,6 +163,15 @@ public class TrasponiFinestra implements PropertyChangeListener {
     }
   }
 
-  
+  @Override
+  protected Object clone() throws CloneNotSupportedException {
+    TrasponiFinestra pret = new TrasponiFinestra(m_dati);
+    pret.setWidth(getWidth());
+    pret.setEight(getEight());
+    pret.zoom = zoom;
+    pret.maxX = maxX;
+    pret.maxY = maxY;
+    return pret;
+  }
 
 }

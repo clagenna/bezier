@@ -12,6 +12,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Line2D;
 import java.beans.Beans;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 import lombok.Getter;
 import sm.clagenna.bezier.data.ModelloDati;
 import sm.clagenna.bezier.data.Punto;
+import sm.clagenna.bezier.data.TrasponiFinestra;
 import sm.clagenna.bezier.enumerati.EMouseGesture;
 import sm.clagenna.bezier.enumerati.EPropChange;
 import sm.clagenna.bezier.sys.IBroadcast;
@@ -96,7 +99,9 @@ public class MyPanel extends JPanel implements IBroadcast {
     g2.drawLine(dim.width, 0, dim.width, dim.height);
     g2.drawLine(0, dim.height, dim.width, dim.height);
     ModelloDati.TipoCurva tip = getModello().getTipoCurva();
-    disegnaBordi(g2);
+    boolean bDisPunti = getModello().isDisegnabordi();
+    if (bDisPunti)
+      disegnaBordi(g2);
     try {
       switch (tip) {
         case Bezier:
@@ -109,9 +114,9 @@ public class MyPanel extends JPanel implements IBroadcast {
     } catch (Exception l_e) {
       System.err.println("Errore:" + l_e.getMessage());
     }
-    disegnaPunti(g2);
+    if (bDisPunti)
+      disegnaPunti(g2);
     g2.dispose();
-
   }
 
   private void disegnaBordi(Graphics2D p_g2) {
@@ -284,6 +289,54 @@ public class MyPanel extends JPanel implements IBroadcast {
       m_ppunti = new ArrayList<>();
     m_ppunti.add(plp);
     return bRet;
+  }
+
+  public void leggiFile(File p_fiIn) {
+    ModelloDati newMod = new ModelloDati();
+    newMod.leggiFile(p_fiIn);
+    if (m_ppunti != null)
+      m_ppunti.clear();
+    m_ppunti = new ArrayList<>();
+    for (Punto p : newMod.getPunti()) {
+      Punto px = newMod.getTraspondiFinestra().convertiX(p);
+      m_ppunti.add(new PlotPunto(newMod, px));
+    }
+    try {
+      modello.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    modello = null;
+    modello = newMod;
+    repaint();
+  }
+
+  public void salvaFile(File p_fiOut) {
+    modello.salvaFile(p_fiOut);
+  }
+
+  public void nuovoDisegno() {
+    m_broadc.removePropertyChangeListener(ModelloDati.class);
+    m_broadc.removePropertyChangeListener(TrasponiFinestra.class);
+    if (m_ppunti != null)
+      m_ppunti.clear();
+    m_ppunti = new ArrayList<>();
+    try {
+      modello.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    modello = null;
+    modello = new ModelloDati();
+    repaint();
+  }
+
+  public void setDisegnaPunti(boolean p_disPunti) {
+    if (modello.isDisegnabordi() ^ p_disPunti) {
+      modello.setDisegnabordi(p_disPunti);
+      repaint();
+    }
+
   }
 
 }

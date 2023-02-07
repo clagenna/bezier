@@ -6,6 +6,9 @@ import java.beans.Beans;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,6 +16,10 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,11 +30,19 @@ import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 public class ModelloDati implements Serializable, PropertyChangeListener, Closeable {
   private static final long   serialVersionUID = 375605770128849415L;
   private static final Logger s_log            = LogManager.getLogger(ModelloDati.class);
+  @Getter @Setter
+  private String              lastDir;
+  @Getter @Setter
+  private transient File      fileDati;
+  @Getter @Setter
+  private transient boolean   serializing;
+  @Getter @Setter
+  private transient boolean   disegnabordi;
   private List<Punto>         liPunti;
   @Getter @Setter
-  private Punto               bersaglioX;
+  private transient Punto     bersaglioX;
   @Getter @Setter
-  private Punto               lastAddedPunto;
+  private transient Punto     lastAddedPunto;
   @Getter @Setter
   private boolean             disegnaGriglia;
   private TrasponiFinestra    m_trasp;
@@ -45,6 +60,7 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
 
   private void initData() {
     m_trasp = new TrasponiFinestra(this);
+    disegnabordi = true;
     if ( !Beans.isDesignTime())
       PropertyChangeBroadcaster.getInst().addPropertyChangeListener(this);
   }
@@ -137,6 +153,69 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
     if ( !liPunti.contains(p_px))
       liPunti.add(p_px);
     setLastAddedPunto(p_px);
+  }
+
+  public void leggiFile(File p_fi) {
+    if (isSerializing())
+      return;
+    if (p_fi != null)
+      setFileDati(p_fi);
+    try (JsonReader frea = new JsonReader(new FileReader(getFileDati()))) {
+      setSerializing(true);
+      setFileDati(p_fi);
+
+      Gson jso = new GsonBuilder() //
+          // .excludeFieldsWithoutExposeAnnotation() //
+          .setPrettyPrinting() //
+          .create();
+
+      ModelloDati data = jso.fromJson(frea, ModelloDati.class);
+      leggiDa(data);
+      data.close();
+      PropertyChangeBroadcaster broadc = PropertyChangeBroadcaster.getInst();
+      // rimuovo il vecchio modello dati (per fromJSon)
+      broadc.removePropertyChangeListener(getClass());
+      // e aggiungo questo
+      broadc.addPropertyChangeListener(this);
+      broadc.broadCast(p_fi, EPropChange.leggiFile, p_fi);
+    } catch (Exception l_e) {
+      String sz = String.format("Errore %s leggendo \"%s\"", l_e.getMessage(), p_fi.getAbsoluteFile());
+      ModelloDati.s_log.error(sz, l_e);
+    } finally {
+      setSerializing(false);
+    }
+  }
+
+  private void leggiDa(ModelloDati p_data) {
+    PropertyChangeBroadcaster broadc = PropertyChangeBroadcaster.getInst();
+    liPunti = new ArrayList<>(p_data.getPunti());
+    tipoCurva = p_data.getTipoCurva();
+    broadc.removePropertyChangeListener(TrasponiFinestra.class);
+    try {
+      m_trasp = (TrasponiFinestra) p_data.getTraspondiFinestra().clone();
+      broadc.addPropertyChangeListener(m_trasp);
+    } catch (CloneNotSupportedException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void salvaFile(File p_fi) {
+    if (p_fi != null)
+      setFileDati(p_fi);
+
+    try (FileWriter fwri = new FileWriter(getFileDati())) {
+      Gson jso = new GsonBuilder() //
+          // .excludeFieldsWithoutExposeAnnotation() //
+          .setPrettyPrinting() //
+          .create();
+      jso.toJson(this, fwri);
+      PropertyChangeBroadcaster.getInst().broadCast(p_fi, EPropChange.scriviFile, p_fi);
+      String sz = String.format("Scritto file \"%s\"", p_fi.getAbsoluteFile());
+      ModelloDati.s_log.info(sz);
+    } catch (Exception l_e) {
+      String sz = String.format("Errore %s salvando \"%s\"", l_e.getMessage(), p_fi.getAbsoluteFile());
+      ModelloDati.s_log.error(sz);
+    }
   }
 
   @Override
