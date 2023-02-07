@@ -1,0 +1,24 @@
+{
+  "lastDir": "F:\\java\\photon2\\bezier\\dati",
+  "liPunti": [
+    {
+      "x": 24.0,
+      "y": 582.0,
+      "id": "2"
+    },
+    {
+      "x": 90.0,
+      "y": 531.0,
+      "id": "4"
+    }
+  ],
+  "disegnaGriglia": false,
+  "m_trasp": {
+    "zoom": 1.0,
+    "width": 800.0,
+    "eight": 600.0,
+    "maxX": 0.0,
+    "maxY": 0.0
+  },
+  "tipoCurva": "Bezier"
+}
