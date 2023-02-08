@@ -1,6 +1,7 @@
 package sm.clagenna.bezier.swing;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.Beans;
@@ -30,11 +31,12 @@ import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 public class MainJFrame extends JFrame implements PropertyChangeListener {
   private static final long         serialVersionUID = -2772804427885900779L;
   private static final Logger       s_log            = LogManager.getLogger(MainJFrame.class);
-  @SuppressWarnings("unused")
+
   private PropertyChangeBroadcaster m_broadc;
   private JCheckBoxMenuItem         m_mnuOptSpline;
   private JCheckBoxMenuItem         m_mnuOptBezier;
   private MyPanel                   m_pan;
+  private JScrollPane               m_scroll;
 
   public MainJFrame() {
     initComponents();
@@ -50,7 +52,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
     m_broadc = new PropertyChangeBroadcaster();
     m_broadc.addPropertyChangeListener(this);
     m_pan = new MyPanel();
-    JScrollPane scroll = new JScrollPane(m_pan);
+    m_scroll = new JScrollPane(m_pan);
     Dimension area = new Dimension(400, 300);
 
     JMenuBar menuBar = new JMenuBar();
@@ -120,8 +122,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
       }
     });
     mnuOpzioni.add(m_mnuOptSpline);
-    
-    
+
     JMenuItem mnuOptDisegnaPunti = new JCheckBoxMenuItem("Dis. bordi");
     mnuOptDisegnaPunti.setSelected(true);
     mnuOptDisegnaPunti.addActionListener(new ActionListener() {
@@ -131,11 +132,9 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
       }
     });
     mnuOpzioni.add(mnuOptDisegnaPunti);
-    
-    
-    
-    scroll.setPreferredSize(area);
-    setContentPane(scroll);
+
+    m_scroll.setPreferredSize(area);
+    setContentPane(m_scroll);
   }
 
   protected void mnuNuovoDisegno() {
@@ -226,6 +225,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
   @Override
   public void propertyChange(PropertyChangeEvent p_evt) {
     Object obj = p_evt.getOldValue();
+    Object nuova = p_evt.getNewValue();
     if ( ! (obj instanceof EPropChange pch))
       return;
 
@@ -233,6 +233,15 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
       case ridisegna:
       case tipoGrafico:
         getContentPane().repaint();
+        break;
+      case nuovoPunto:
+        if ( ! (nuova instanceof Point))
+          break;
+        Dimension d = m_scroll.getPreferredSize();
+        Point p = (Point) nuova;
+        Dimension nd = new Dimension(Math.max(d.width, (int) p.getX()) + 10, Math.max(d.height, (int) p.getY()) + 10);
+        System.out.println("MainJFrame.new dim():" + nd.toString());
+        m_pan.setPreferredSize(nd);
         break;
       default:
         break;
