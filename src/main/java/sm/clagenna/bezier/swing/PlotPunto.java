@@ -171,7 +171,7 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
 
   @Override
   public int compareTo(PlotPunto p_o) {
-    // TODO Auto-generated method stub
+    // TODO Completare la compareTo() di PlotPunto
     return 0;
   }
 

@@ -100,25 +100,25 @@ public class DrawingPane extends JPanel implements MouseListener {
 
   @Override
   public void mousePressed(MouseEvent p_e) {
-    // TODO Auto-generated method stub
+    // 
 
   }
 
   @Override
   public void mouseEntered(MouseEvent p_e) {
-    // TODO Auto-generated method stub
+    // 
 
   }
 
   @Override
   public void mouseExited(MouseEvent p_e) {
-    // TODO Auto-generated method stub
+    // 
 
   }
 
   @Override
   public void mouseClicked(MouseEvent p_e) {
-    // TODO Auto-generated method stub
+    // 
 
   }
 }

@@ -75,7 +75,7 @@ public class Cversion {
   double      z[];
 
   public Cversion() {
-    // TODO Auto-generated constructor stub
+    // 
   }
 
   public static void main(String[] args) {

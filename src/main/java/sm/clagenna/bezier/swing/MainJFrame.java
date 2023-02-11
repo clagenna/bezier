@@ -1,9 +1,12 @@
 package sm.clagenna.bezier.swing;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.beans.Beans;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -15,13 +18,18 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileSystemView;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import lombok.Getter;
+import lombok.Setter;
+import sm.clagenna.bezier.data.AppProperties;
 import sm.clagenna.bezier.data.ModelloDati;
 import sm.clagenna.bezier.data.ModelloDati.TipoCurva;
 import sm.clagenna.bezier.enumerati.EPropChange;
@@ -35,8 +43,13 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
   private PropertyChangeBroadcaster m_broadc;
   private JCheckBoxMenuItem         m_mnuOptSpline;
   private JCheckBoxMenuItem         m_mnuOptBezier;
+  private JMenuItem                 m_mnuOpenDialOpts;
   private MyPanel                   m_pan;
   private JScrollPane               m_scroll;
+  private JDialogOpts               m_dialOpts;
+  @Getter @Setter
+  private AppProperties             props;
+  private JMenuItem                 m_mnuOptDisegnaPunti;
 
   public MainJFrame() {
     initComponents();
@@ -51,7 +64,34 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     m_broadc = new PropertyChangeBroadcaster();
     m_broadc.addPropertyChangeListener(this);
+
+    addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent p_e) {
+        System.out.println("JDialogOpts.{...}.windowClosing()");
+        salvaProperties();
+        super.windowClosing(p_e);
+      }
+
+      @Override
+      public void windowClosed(WindowEvent p_e) {
+        // System.out.println("JDialogOpts.{...}.windowClosed()");
+        super.windowClosed(p_e);
+      }
+    });
+
+    if ( !Beans.isDesignTime()) {
+      props = new AppProperties();
+      props.openProperties();
+      Dimension dim = props.getFrameDim();
+      Point pos = props.getFramePos();
+      if ( (dim.height * dim.width) > 0)
+        setPreferredSize(dim);
+      setLocation(pos);
+    }
+
     m_pan = new MyPanel();
+    m_pan.leggiProperties();
     m_scroll = new JScrollPane(m_pan);
     Dimension area = new Dimension(400, 300);
 
@@ -123,15 +163,26 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
     });
     mnuOpzioni.add(m_mnuOptSpline);
 
-    JMenuItem mnuOptDisegnaPunti = new JCheckBoxMenuItem("Dis. bordi");
-    mnuOptDisegnaPunti.setSelected(true);
-    mnuOptDisegnaPunti.addActionListener(new ActionListener() {
+    m_mnuOptDisegnaPunti = new JCheckBoxMenuItem("Dis. bordi");
+    m_mnuOptDisegnaPunti.setSelected(true);
+    m_mnuOptDisegnaPunti.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
         mnuOptDisegnaBordo(e);
       }
     });
-    mnuOpzioni.add(mnuOptDisegnaPunti);
+    mnuOpzioni.add(m_mnuOptDisegnaPunti);
+
+    mnuOpzioni.addSeparator();
+
+    m_mnuOpenDialOpts = new JMenuItem("Dialog");
+    m_mnuOpenDialOpts.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        mnuDialOptsClick();
+      }
+    });
+    mnuOpzioni.add(m_mnuOpenDialOpts);
 
     m_scroll.setPreferredSize(area);
     setContentPane(m_scroll);
@@ -146,10 +197,38 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
     File fiIn = apriFileChooser("Leggi il file salvataggio", true);
     if (fiIn != null)
       m_pan.leggiFile(fiIn);
+    aggiornaDatiInterfaccia();
+  }
+
+  private void aggiornaDatiInterfaccia() {
+    //    AppProperties props = AppProperties.getInst();
+    ModelloDati mod = getModello();
+    boolean bv = mod.isDisegnabordi();
+    m_mnuOptDisegnaPunti.setSelected(bv);
+    //    bv = mod.isDisegnaGriglia();
+    //    m_ckDisGriglia.setSelected(bv);
+
+    switch (mod.getTipoCurva()) {
+
+      case Bezier:
+        m_mnuOptBezier.setSelected(true);
+        m_mnuOptSpline.setSelected(false);
+        break;
+
+      case Spline:
+        m_mnuOptBezier.setSelected(false);
+        m_mnuOptSpline.setSelected(true);
+        break;
+
+    }
+    if (m_dialOpts != null) {
+      m_dialOpts.initValues();
+    }
   }
 
   private File apriFileChooser(String p_titolo, boolean p_b) {
     File fiRet = null;
+    ModelloDati modello = m_pan.getModello();
     JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
     jfc.setDialogTitle(p_titolo);
     jfc.setMultiSelectionEnabled(false);
@@ -157,7 +236,6 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
 
     MioFileFilter json = new MioFileFilter("json file", ".json");
     jfc.addChoosableFileFilter(json);
-    ModelloDati props = m_pan.getModello();
     String sz = props.getLastDir();
     if (sz != null)
       jfc.setCurrentDirectory(new File(sz));
@@ -171,10 +249,10 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
       if (fiRet != null)
         if ( !fiRet.getAbsolutePath().toLowerCase().endsWith(".json"))
           fiRet = new File(fiRet.getAbsolutePath() + ".json");
-      props.setFileDati(fiRet);
+      modello.setFileDati(fiRet);
       File fi2 = jfc.getCurrentDirectory();
       props.setLastDir(fi2.getAbsolutePath());
-      s_log.info("Scelto file: {}", fiRet.getAbsolutePath());
+      s_log.info("Scelto file: {} dal dir {}", fiRet.getAbsolutePath(), fi2.getAbsolutePath());
     } else
       s_log.info("Scartato lettura file");
     return fiRet;
@@ -207,11 +285,17 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
     }
     if (Beans.isDesignTime())
       return;
-    m_pan.getModello().setTipoCurva(tip);
+    setTipoCurva(tip);
+  }
+
+  protected void setTipoCurva(ModelloDati.TipoCurva p_tip) {
+    m_pan.getModello().setTipoCurva(p_tip);
+    aggiornaDatiInterfaccia();
   }
 
   protected void mnuEsciClick() {
-    System.out.println("MainJFrame.mnuEsciClick()");
+    // System.out.println("MainJFrame.mnuEsciClick()");
+    salvaProperties();
     this.dispose();
     // System.exit(0);
   }
@@ -219,7 +303,44 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
   protected void mnuOptDisegnaBordo(ActionEvent p_e) {
     JCheckBoxMenuItem ck = (JCheckBoxMenuItem) p_e.getSource();
     boolean disPunti = ck.isSelected();
-    m_pan.setDisegnaPunti(disPunti);
+    setDisegnaBordi(disPunti);
+  }
+
+  protected void mnuDialOptsClick() {
+    if (m_dialOpts != null) {
+      JOptionPane.showMessageDialog(m_dialOpts, "Hai già la dialog aperta !");
+      return;
+    }
+    m_dialOpts = new JDialogOpts(this);
+    m_mnuOpenDialOpts.setEnabled(false);
+    SwingUtilities.invokeLater(new Runnable() {
+
+      @Override
+      public void run() {
+        m_dialOpts.setVisible(true);
+      }
+    });
+  }
+
+  public void optWinClosed() {
+    System.out.println("MainJFrame.optWinClosed()");
+    setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    m_dialOpts.dispose();
+    m_dialOpts = null;
+    m_mnuOpenDialOpts.setEnabled(true);
+  }
+
+  protected void salvaProperties() {
+    if (props == null)
+      return;
+    try {
+      m_pan.salvaProperties();
+      props.setFramePos(getLocation());
+      props.setFrameDim(getSize());
+      props.saveProperties();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
@@ -230,10 +351,12 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
       return;
 
     switch (pch) {
+
       case ridisegna:
       case tipoGrafico:
         getContentPane().repaint();
         break;
+
       case nuovoPunto:
         if ( ! (nuova instanceof Point))
           break;
@@ -243,10 +366,24 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
         System.out.println("MainJFrame.new dim():" + nd.toString());
         m_pan.setPreferredSize(nd);
         break;
+
       default:
         break;
     }
 
+  }
+
+  public void setDisegnaGriglia(boolean p_bSel) {
+    m_pan.setDisegnaGriglia(p_bSel);
+
+  }
+
+  public void setDisegnaBordi(boolean p_bSel) {
+    m_pan.setDisegnaPunti(p_bSel);
+  }
+
+  public ModelloDati getModello() {
+    return m_pan.getModello();
   }
 
 }

@@ -25,13 +25,14 @@ import lombok.Getter;
 import lombok.Setter;
 import sm.clagenna.bezier.enumerati.EPropChange;
 import sm.clagenna.bezier.swing.PlotPunto;
+import sm.clagenna.bezier.sys.IProperty;
 import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 
-public class ModelloDati implements Serializable, PropertyChangeListener, Closeable {
+public class ModelloDati implements Serializable, PropertyChangeListener, Closeable, IProperty {
   private static final long   serialVersionUID = 375605770128849415L;
   private static final Logger s_log            = LogManager.getLogger(ModelloDati.class);
-  @Getter @Setter
-  private String              lastDir;
+  //  @Getter @Setter
+  //  private String              lastDir;
   @Getter @Setter
   private transient File      fileDati;
   @Getter @Setter
@@ -183,6 +184,7 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
       ModelloDati.s_log.error(sz, l_e);
     } finally {
       setSerializing(false);
+      salvaProperties();
     }
   }
 
@@ -224,6 +226,31 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
       liPunti.clear();
     liPunti = null;
     PropertyChangeBroadcaster.getInst().removePropertyChangeListener(this);
+  }
+
+  @Override
+  public void salvaProperties() {
+    AppProperties props = AppProperties.getInst();
+
+    props.setPropVal(AppProperties.CSZ_PROP_LASTFIL, fileDati.getName());
+    props.setPropVal(AppProperties.CSZ_PROP_LASTDIR, fileDati.getParent());
+    props.setBooleanPropVal(AppProperties.CSZ_PROP_BO_DISEGNA, disegnabordi);
+    props.setBooleanPropVal(AppProperties.CSZ_PROP_DISEGNAGRIGLIA, disegnaGriglia);
+    props.setPropVal(AppProperties.CSZ_PROP_TIPOCURVA, tipoCurva.name());
+
+  }
+
+  @Override
+  public void leggiProperties() {
+    AppProperties props = AppProperties.getInst();
+    String sz = props.getPropVal(AppProperties.CSZ_PROP_LASTFIL);
+    if (sz != null && sz.length() > 3)
+      fileDati = new File(sz);
+    disegnabordi = props.getBooleanPropVal(AppProperties.CSZ_PROP_BO_DISEGNA, true);
+    disegnaGriglia = props.getBooleanPropVal(AppProperties.CSZ_PROP_DISEGNAGRIGLIA, true);
+    sz = props.getPropVal(AppProperties.CSZ_PROP_TIPOCURVA);
+    if (sz != null && sz.length() > 2)
+      tipoCurva = TipoCurva.valueOf(sz);
   }
 
 }

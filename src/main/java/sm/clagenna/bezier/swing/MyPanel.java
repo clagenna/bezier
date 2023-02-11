@@ -30,9 +30,10 @@ import sm.clagenna.bezier.data.TrasponiFinestra;
 import sm.clagenna.bezier.enumerati.EMouseGesture;
 import sm.clagenna.bezier.enumerati.EPropChange;
 import sm.clagenna.bezier.sys.IBroadcast;
+import sm.clagenna.bezier.sys.IProperty;
 import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 
-public class MyPanel extends JPanel implements IBroadcast {
+public class MyPanel extends JPanel implements IBroadcast, IProperty {
   private static final long         serialVersionUID = 6248852778512372166L;
 
   private static final Logger       s_log            = LogManager.getLogger(MyPanel.class);
@@ -58,6 +59,7 @@ public class MyPanel extends JPanel implements IBroadcast {
     modello = new ModelloDati();
     modello.setDimensione(area);
     addMouseListener(new MouseAdapter() {
+
       @Override
       public void mouseReleased(MouseEvent p_e) {
         mouseRelease(p_e);
@@ -67,6 +69,7 @@ public class MyPanel extends JPanel implements IBroadcast {
       public void mouseClicked(MouseEvent p_e) {
         mouseClick(p_e);
       }
+
     });
     addMouseMotionListener(new MouseMotionAdapter() {
 
@@ -336,7 +339,23 @@ public class MyPanel extends JPanel implements IBroadcast {
       modello.setDisegnabordi(p_disPunti);
       repaint();
     }
+  }
 
+  public void setDisegnaGriglia(boolean p_bSel) {
+    if (modello.isDisegnaGriglia() ^ p_bSel) {
+      modello.setDisegnaGriglia(p_bSel);
+      repaint();
+    }
+  }
+
+  @Override
+  public void salvaProperties() {
+    modello.salvaProperties();
+  }
+
+  @Override
+  public void leggiProperties() {
+    modello.leggiProperties();
   }
 
 }
