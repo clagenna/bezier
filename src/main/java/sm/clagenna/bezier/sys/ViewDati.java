@@ -1,4 +1,4 @@
-package sm.clagenna.bezier.swing;
+package sm.clagenna.bezier.sys;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import lombok.Getter;
 import lombok.Setter;
 import sm.clagenna.bezier.data.ModelloDati;
-import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 
 public class ViewDati implements PropertyChangeListener, Closeable {
 

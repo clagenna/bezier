@@ -226,14 +226,14 @@ public class JDialogOpts extends JDialog implements IProperty {
     addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent p_e) {
-        System.out.println("JDialogOpts.{...}.windowClosing()");
+        // System.out.println("JDialogOpts.{...}.windowClosing()");
         chiudiDialog();
         super.windowClosing(p_e);
       }
 
       @Override
       public void windowClosed(WindowEvent p_e) {
-        System.out.println("JDialogOpts.{...}.windowClosed()");
+        // System.out.println("JDialogOpts.{...}.windowClosed()");
         chiudiDialog();
         super.windowClosed(p_e);
       }
@@ -288,7 +288,6 @@ public class JDialogOpts extends JDialog implements IProperty {
   }
 
   private void chiudiDialog() {
-    salvaProperties();
     if (m_padre != null)
       m_padre.optWinClosed();
     m_padre = null;
@@ -296,6 +295,7 @@ public class JDialogOpts extends JDialog implements IProperty {
 
   @Override
   public void salvaProperties() {
+    // System.out.println("JDialogOpts.salvaProperties()");
     AppProperties props = AppProperties.getInst();
     if (m_OptsPos != null)
       props.setOptsPos(m_OptsPos);

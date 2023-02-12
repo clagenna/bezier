@@ -68,7 +68,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
     addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent p_e) {
-        System.out.println("JDialogOpts.{...}.windowClosing()");
+        // System.out.println("JDialogOpts.{...}.windowClosing()");
         salvaProperties();
         super.windowClosing(p_e);
       }
@@ -193,11 +193,43 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
   }
 
   protected void mnuLeggiClick() {
-    System.out.println("MainJFrame.mnuLeggiClick()");
+    // System.out.println("MainJFrame.mnuLeggiClick()");
     File fiIn = apriFileChooser("Leggi il file salvataggio", true);
     if (fiIn != null)
       m_pan.leggiFile(fiIn);
     aggiornaDatiInterfaccia();
+  }
+
+  private File apriFileChooser(String p_titolo, boolean p_b) {
+    File fiRet = null;
+    ModelloDati modello = m_pan.getModello();
+    JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+    jfc.setDialogTitle(p_titolo);
+    jfc.setMultiSelectionEnabled(false);
+    jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+  
+    MioFileFilter json = new MioFileFilter("json file", ".json");
+    jfc.addChoosableFileFilter(json);
+    String sz = props.getLastDir();
+    if (sz != null)
+      jfc.setCurrentDirectory(new File(sz));
+    int returnValue = 0;
+    if (p_b)
+      returnValue = jfc.showOpenDialog(this);
+    else
+      returnValue = jfc.showSaveDialog(this);
+    if (returnValue == JFileChooser.APPROVE_OPTION) {
+      fiRet = jfc.getSelectedFile();
+      if (fiRet != null)
+        if ( !fiRet.getAbsolutePath().toLowerCase().endsWith(".json"))
+          fiRet = new File(fiRet.getAbsolutePath() + ".json");
+      modello.setFileDati(fiRet);
+      File fi2 = jfc.getCurrentDirectory();
+      props.setLastDir(fi2.getAbsolutePath());
+      s_log.info("Scelto file: {} dal dir {}", fiRet.getAbsolutePath(), fi2.getAbsolutePath());
+    } else
+      s_log.info("Scartato lettura file");
+    return fiRet;
   }
 
   private void aggiornaDatiInterfaccia() {
@@ -226,40 +258,8 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
     }
   }
 
-  private File apriFileChooser(String p_titolo, boolean p_b) {
-    File fiRet = null;
-    ModelloDati modello = m_pan.getModello();
-    JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-    jfc.setDialogTitle(p_titolo);
-    jfc.setMultiSelectionEnabled(false);
-    jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-    MioFileFilter json = new MioFileFilter("json file", ".json");
-    jfc.addChoosableFileFilter(json);
-    String sz = props.getLastDir();
-    if (sz != null)
-      jfc.setCurrentDirectory(new File(sz));
-    int returnValue = 0;
-    if (p_b)
-      returnValue = jfc.showOpenDialog(this);
-    else
-      returnValue = jfc.showSaveDialog(this);
-    if (returnValue == JFileChooser.APPROVE_OPTION) {
-      fiRet = jfc.getSelectedFile();
-      if (fiRet != null)
-        if ( !fiRet.getAbsolutePath().toLowerCase().endsWith(".json"))
-          fiRet = new File(fiRet.getAbsolutePath() + ".json");
-      modello.setFileDati(fiRet);
-      File fi2 = jfc.getCurrentDirectory();
-      props.setLastDir(fi2.getAbsolutePath());
-      s_log.info("Scelto file: {} dal dir {}", fiRet.getAbsolutePath(), fi2.getAbsolutePath());
-    } else
-      s_log.info("Scartato lettura file");
-    return fiRet;
-  }
-
   protected void mnuSalvaClick() {
-    System.out.println("MainJFrame.mnuSalvaClick()");
+    // System.out.println("MainJFrame.mnuSalvaClick()");
     File fiOut = apriFileChooser("Salva il contenuto su file", false);
     if (fiOut != null)
       m_pan.salvaFile(fiOut);
@@ -269,7 +269,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
   protected void mnuOptClick(ActionEvent p_e) {
     JCheckBoxMenuItem mnu = (JCheckBoxMenuItem) p_e.getSource();
     String sz = mnu.getText();
-    System.out.printf("mnuOptClick(%s)\n", sz);
+    // System.out.printf("mnuOptClick(%s)\n", sz);
     ModelloDati.TipoCurva tip = null;
     switch (sz) {
       case "Bezier":
@@ -323,8 +323,9 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
   }
 
   public void optWinClosed() {
-    System.out.println("MainJFrame.optWinClosed()");
+    // System.out.println("MainJFrame.optWinClosed()");
     setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    // m_dialOpts.salvaProperties();
     m_dialOpts.dispose();
     m_dialOpts = null;
     m_mnuOpenDialOpts.setEnabled(true);
@@ -333,8 +334,11 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
   protected void salvaProperties() {
     if (props == null)
       return;
+    // System.out.println("MainJFrame.salvaProperties()");
     try {
       m_pan.salvaProperties();
+      if ( m_dialOpts != null)
+        m_dialOpts.salvaProperties();
       props.setFramePos(getLocation());
       props.setFrameDim(getSize());
       props.saveProperties();
@@ -363,7 +367,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
         Dimension d = m_scroll.getPreferredSize();
         Point p = (Point) nuova;
         Dimension nd = new Dimension(Math.max(d.width, (int) p.getX()) + 10, Math.max(d.height, (int) p.getY()) + 10);
-        System.out.println("MainJFrame.new dim():" + nd.toString());
+        // System.out.println("MainJFrame.new dim():" + nd.toString());
         m_pan.setPreferredSize(nd);
         break;
 

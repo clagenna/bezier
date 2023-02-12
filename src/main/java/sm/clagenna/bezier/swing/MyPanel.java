@@ -96,12 +96,9 @@ public class MyPanel extends JPanel implements IBroadcast, IProperty {
   protected void paintComponent(Graphics p_g) {
     super.paintComponent(p_g);
     Graphics2D g2 = (Graphics2D) p_g.create();
-    Dimension dim = getPreferredSize();
-    g2.setColor(Color.lightGray);
-    g2.drawLine(0, 0, dim.width, dim.height);
-    g2.drawLine(dim.width, 0, dim.width, dim.height);
-    g2.drawLine(0, dim.height, dim.width, dim.height);
-    ModelloDati.TipoCurva tip = getModello().getTipoCurva();
+    ModelloDati.TipoCurva tip = modello.getTipoCurva();
+    if (modello.isDisegnaGriglia())
+      disegnaGriglia(g2);
     boolean bDisPunti = getModello().isDisegnabordi();
     if (bDisPunti)
       disegnaBordi(g2);
@@ -122,12 +119,33 @@ public class MyPanel extends JPanel implements IBroadcast, IProperty {
     g2.dispose();
   }
 
+  private void disegnaGriglia(Graphics2D g2) {
+    Dimension dim = getSize();
+    Color co1 = new Color(240,240,240);
+    Color co2 = new Color(200,200,200);
+
+    int k=0;
+    for (int col = 0; col < dim.width; col += 10) {
+      g2.setColor(co1);
+      if ( (k++ % 5) == 0 )
+        g2.setColor(co2);
+      g2.drawLine(col, 0, col, dim.height);
+    }
+    k=0;
+    for (int row = 0; row < dim.height; row += 10) {
+      g2.setColor(co1);
+      if ( (k++ % 5) == 0 )
+        g2.setColor(co2);
+      g2.drawLine(0, row, dim.width, row);
+    }
+  }
+
   private void disegnaBordi(Graphics2D p_g2) {
     if (m_ppunti == null || m_ppunti.size() <= 1)
       return;
     Graphics2D g2 = (Graphics2D) p_g2.create();
     PlotPunto prev = null;
-    g2.setColor(Color.cyan);
+    //    g2.setColor(Color.cyan);
     Stroke stk = new BasicStroke(2);
     g2.setColor(Color.green);
     g2.setStroke(stk);
