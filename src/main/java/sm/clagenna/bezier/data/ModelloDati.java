@@ -24,16 +24,18 @@ import com.google.gson.stream.JsonReader;
 import lombok.Getter;
 import lombok.Setter;
 import sm.clagenna.bezier.enumerati.EPropChange;
+import sm.clagenna.bezier.swing.MenuFiles;
 import sm.clagenna.bezier.swing.PlotPunto;
+import sm.clagenna.bezier.sys.IGestFile;
 import sm.clagenna.bezier.sys.IProperty;
 import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 
-public class ModelloDati implements Serializable, PropertyChangeListener, Closeable, IProperty {
+public class ModelloDati implements Serializable, PropertyChangeListener, Closeable, IProperty, IGestFile {
   private static final long   serialVersionUID = 375605770128849415L;
   private static final Logger s_log            = LogManager.getLogger(ModelloDati.class);
   //  @Getter @Setter
   //  private String              lastDir;
-  @Getter @Setter
+  @Getter
   private transient File      fileDati;
   @Getter @Setter
   private transient boolean   serializing;
@@ -156,6 +158,7 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
     setLastAddedPunto(p_px);
   }
 
+  @Override
   public void leggiFile(File p_fi) {
     if (isSerializing())
       return;
@@ -163,8 +166,6 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
       setFileDati(p_fi);
     try (JsonReader frea = new JsonReader(new FileReader(getFileDati()))) {
       setSerializing(true);
-      setFileDati(p_fi);
-
       Gson jso = new GsonBuilder() //
           // .excludeFieldsWithoutExposeAnnotation() //
           .setPrettyPrinting() //
@@ -253,4 +254,12 @@ public class ModelloDati implements Serializable, PropertyChangeListener, Closea
       tipoCurva = TipoCurva.valueOf(sz);
   }
 
+  public void setFileDati(File p_fi) {
+    AppProperties props = AppProperties.getInst();
+    fileDati = p_fi;
+    props.setPropVal(AppProperties.CSZ_PROP_LASTFIL, fileDati.getName());
+    props.setPropVal(AppProperties.CSZ_PROP_LASTDIR, fileDati.getParent());
+    MenuFiles mnfi = MenuFiles.getInst();
+    mnfi.add(p_fi);
+  }
 }

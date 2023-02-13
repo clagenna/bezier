@@ -50,6 +50,10 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
   @Getter @Setter
   private AppProperties             props;
   private JMenuItem                 m_mnuOptDisegnaPunti;
+  private JMenu                     m_mnUltimiFiles;
+  private MenuFiles                 m_filesMenu;
+  
+  // FIXME verificare se ci sono state modifiche prima di uscire
 
   public MainJFrame() {
     initComponents();
@@ -63,6 +67,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
   private void initComponents() {
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     m_broadc = new PropertyChangeBroadcaster();
+    m_filesMenu = MenuFiles.getInst();
     m_broadc.addPropertyChangeListener(this);
 
     addWindowListener(new WindowAdapter() {
@@ -83,6 +88,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
     if ( !Beans.isDesignTime()) {
       props = new AppProperties();
       props.openProperties();
+      m_filesMenu = new MenuFiles();
       Dimension dim = props.getFrameDim();
       Point pos = props.getFramePos();
       if ( (dim.height * dim.width) > 0)
@@ -109,7 +115,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
       }
     });
     mnuMenuFile.add(mnuNuovo);
-
+    // --------------------------------------------
     mnuMenuFile.addSeparator();
 
     JMenuItem mnuSalva = new JMenuItem("Salva");
@@ -129,6 +135,12 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
       }
     });
     mnuMenuFile.add(mnuLeggi);
+
+    m_mnUltimiFiles = new JMenu("Ultimi Files");
+    mnuMenuFile.add(m_mnUltimiFiles);
+    m_filesMenu.creaElenco(m_pan, m_mnUltimiFiles);
+
+    // --------------------------------------------
     mnuMenuFile.addSeparator();
 
     JMenuItem mnuExit = new JMenuItem("Esci");
@@ -140,6 +152,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
     });
     mnuMenuFile.add(mnuExit);
 
+    // --------------------------------------------
     JMenu mnuOpzioni = new JMenu("Opzioni");
     menuBar.add(mnuOpzioni);
 
@@ -207,7 +220,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
     jfc.setDialogTitle(p_titolo);
     jfc.setMultiSelectionEnabled(false);
     jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-  
+
     MioFileFilter json = new MioFileFilter("json file", ".json");
     jfc.addChoosableFileFilter(json);
     String sz = props.getLastDir();
@@ -337,7 +350,7 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
     // System.out.println("MainJFrame.salvaProperties()");
     try {
       m_pan.salvaProperties();
-      if ( m_dialOpts != null)
+      if (m_dialOpts != null)
         m_dialOpts.salvaProperties();
       props.setFramePos(getLocation());
       props.setFrameDim(getSize());
@@ -371,6 +384,11 @@ public class MainJFrame extends JFrame implements PropertyChangeListener {
         m_pan.setPreferredSize(nd);
         break;
 
+      case leggiFile:
+        MenuFiles mnfi = MenuFiles.getInst();
+        mnfi.creaElenco(m_pan, m_mnUltimiFiles);
+        break;
+        
       default:
         break;
     }

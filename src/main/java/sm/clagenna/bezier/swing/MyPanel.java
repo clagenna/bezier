@@ -30,10 +30,11 @@ import sm.clagenna.bezier.data.TrasponiFinestra;
 import sm.clagenna.bezier.enumerati.EMouseGesture;
 import sm.clagenna.bezier.enumerati.EPropChange;
 import sm.clagenna.bezier.sys.IBroadcast;
+import sm.clagenna.bezier.sys.IGestFile;
 import sm.clagenna.bezier.sys.IProperty;
 import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 
-public class MyPanel extends JPanel implements IBroadcast, IProperty {
+public class MyPanel extends JPanel implements IBroadcast, IProperty, IGestFile {
   private static final long         serialVersionUID = 6248852778512372166L;
 
   private static final Logger       s_log            = LogManager.getLogger(MyPanel.class);
@@ -121,20 +122,20 @@ public class MyPanel extends JPanel implements IBroadcast, IProperty {
 
   private void disegnaGriglia(Graphics2D g2) {
     Dimension dim = getSize();
-    Color co1 = new Color(240,240,240);
-    Color co2 = new Color(200,200,200);
+    Color co1 = new Color(240, 240, 240);
+    Color co2 = new Color(200, 200, 200);
 
-    int k=0;
+    int k = 0;
     for (int col = 0; col < dim.width; col += 10) {
       g2.setColor(co1);
-      if ( (k++ % 5) == 0 )
+      if ( (k++ % 5) == 0)
         g2.setColor(co2);
       g2.drawLine(col, 0, col, dim.height);
     }
-    k=0;
+    k = 0;
     for (int row = 0; row < dim.height; row += 10) {
       g2.setColor(co1);
-      if ( (k++ % 5) == 0 )
+      if ( (k++ % 5) == 0)
         g2.setColor(co2);
       g2.drawLine(0, row, dim.width, row);
     }
@@ -312,6 +313,7 @@ public class MyPanel extends JPanel implements IBroadcast, IProperty {
     return bRet;
   }
 
+  @Override
   public void leggiFile(File p_fiIn) {
     ModelloDati newMod = new ModelloDati();
     newMod.leggiFile(p_fiIn);

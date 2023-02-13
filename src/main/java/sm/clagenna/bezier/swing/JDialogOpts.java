@@ -15,6 +15,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.Beans;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 
 import javax.swing.ButtonGroup;
@@ -31,9 +33,11 @@ import javax.swing.SwingConstants;
 import sm.clagenna.bezier.data.AppProperties;
 import sm.clagenna.bezier.data.ModelloDati;
 import sm.clagenna.bezier.data.ModelloDati.TipoCurva;
+import sm.clagenna.bezier.enumerati.EPropChange;
 import sm.clagenna.bezier.sys.IProperty;
+import sm.clagenna.bezier.sys.PropertyChangeBroadcaster;
 
-public class JDialogOpts extends JDialog implements IProperty {
+public class JDialogOpts extends JDialog implements IProperty, PropertyChangeListener {
   private static final long serialVersionUID = -8474695387606471867L;
   private MainJFrame        m_padre;
   private JTextField        m_txLastDir;
@@ -53,6 +57,7 @@ public class JDialogOpts extends JDialog implements IProperty {
   }
 
   private void initComponents() {
+    PropertyChangeBroadcaster.getInst().addPropertyChangeListener(this);
     addComponentListener(new ComponentAdapter() {
 
       @Override
@@ -291,6 +296,7 @@ public class JDialogOpts extends JDialog implements IProperty {
     if (m_padre != null)
       m_padre.optWinClosed();
     m_padre = null;
+    PropertyChangeBroadcaster.getInst().removePropertyChangeListener(getClass());
   }
 
   @Override
@@ -324,6 +330,24 @@ public class JDialogOpts extends JDialog implements IProperty {
     if (sz != null) {
       File fi = new File(sz);
       m_txLastFile.setText(fi.getName());
+    }
+
+  }
+
+  @Override
+  public void propertyChange(PropertyChangeEvent p_evt) {
+    Object obj = p_evt.getOldValue();
+    @SuppressWarnings("unused") 
+    Object nuova = p_evt.getNewValue();
+    if ( ! (obj instanceof EPropChange pch))
+      return;
+    switch (pch) {
+      case leggiFile:
+        leggiProperties();
+        break;
+        
+      default:
+        break;
     }
 
   }

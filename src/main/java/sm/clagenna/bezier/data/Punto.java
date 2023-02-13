@@ -5,7 +5,7 @@ import java.awt.Point;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Punto implements Cloneable {
+public class Punto implements Cloneable, Comparable<Punto> {
   private static int    s_id = 1;
   private static double s_raggioMaxBersaglio;
 
@@ -76,5 +76,17 @@ public class Punto implements Cloneable {
   protected Object clone() throws CloneNotSupportedException {
     Punto lp = (Punto) super.clone();
     return lp;
+  }
+
+  @Override
+  public int compareTo(Punto p_o) {
+    if (p_o == null)
+      return -1;
+    if (x == p_o.x && y == p_o.y)
+      return 0;
+    // comparo le distanze dal origine
+    var dx = x * x + y * y;
+    var dox = p_o.x * p_o.x + p_o.y * p_o.y;
+    return Double.compare(dx, dox);
   }
 }

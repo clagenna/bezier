@@ -171,8 +171,11 @@ public class PlotPunto implements Comparable<PlotPunto>, IDisegnabile {
 
   @Override
   public int compareTo(PlotPunto p_o) {
-    // TODO Completare la compareTo() di PlotPunto
-    return 0;
+    if ( p_o == null)
+      return -1;
+    if ( puntoW ==null || p_o.puntoW ==null)
+      return -1;
+    return puntoW.compareTo(p_o.puntoW);
   }
 
 }
